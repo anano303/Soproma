@@ -1,0 +1,32 @@
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background: linear-gradient(90deg, lightgreen, green);
+    color: white;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .logo {
+    font-size: 1.8rem;
+    font-weight: bold;
+  }
+  
+  nav a {
+    margin: 0 15px;
+    text-decoration: none;
+    color: white;
+    font-size: 1.2rem;
+    transition: color 0.3s, transform 0.2s;
+  }
+  
+  nav a:hover {
+    color: lightblue;
+    transform: scale(1.1);
+  }
+  
+  nav a:active {
+    color: gray;
+  }

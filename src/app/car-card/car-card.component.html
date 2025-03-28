@@ -1,0 +1,17 @@
+<div class="car-card">
+    <h3>{{ car.brand }}</h3>
+    <p class="model">{{ car.model }} / {{ car.year }}</p>
+    
+    <img [src]="car.imageUrl1" [alt]="car.brand + ' ' + car.model" class="car-image" />
+  
+    <div class="details">
+      <span>&#128663; {{ car.transmission }}</span>
+      <span>&#128100; {{ car.capacity }} Passengers</span>
+      <span>&#128273; {{ car.fuelCapacity }}L Fuel</span>
+    </div>
+  
+    <div class="footer">
+      <span class="price">{{ car.price * car.multiplier }}&#8382; / Day</span>
+      <button class="rent-button">Rent Now</button>
+    </div>
+  </div>
