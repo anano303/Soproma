@@ -8,8 +8,7 @@ import { CarService } from '../car.service';
   styleUrl: './car-card.component.css'
 })
 export class CarCardComponent {
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
+
   @Input() car: Car = {
     id: 0,
     brand: 'Brand',
@@ -33,9 +32,7 @@ export class CarCardComponent {
     longitude: 0,
     ownerPhoneNumber: ''
   };
-=======
-=======
->>>>>>> Stashed changes
+
   Cars: any[] = [];
   editingCarId: number | null = null; 
 
@@ -63,8 +60,4 @@ export class CarCardComponent {
   resetForm() {
     this.editingCarId = null;
   }
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
 }
