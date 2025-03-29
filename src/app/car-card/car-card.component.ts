@@ -1,28 +1,5 @@
 import { Component, Input } from '@angular/core';
-
-interface Car {
-  id: number;
-  brand: string;
-  model: string;
-  year: number;
-  imageUrl1: string;
-  imageUrl2: string;
-  imageUrl3: string;
-  image1: string;
-  image2: string;
-  image3: string;
-  price: number;
-  multiplier: number;
-  capacity: number;
-  transmission: string;
-  createdBy: string;
-  createdByEmail: string;
-  fuelCapacity: number;
-  city: string;
-  latitude: number;
-  longitude: number;
-  ownerPhoneNumber: string;
-}
+import { CarService } from '../car.service';
 
 @Component({
   selector: 'app-car-card',
@@ -31,6 +8,8 @@ interface Car {
   styleUrl: './car-card.component.css'
 })
 export class CarCardComponent {
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
   @Input() car: Car = {
     id: 0,
     brand: 'Brand',
@@ -54,4 +33,38 @@ export class CarCardComponent {
     longitude: 0,
     ownerPhoneNumber: ''
   };
+=======
+=======
+>>>>>>> Stashed changes
+  Cars: any[] = [];
+  editingCarId: number | null = null; 
+
+  constructor(private carService: CarService) {
+    this.fetchCars();
+  }
+
+  fetchCars() {
+    this.carService.getCars().subscribe((data) => {
+      this.Cars = data;
+    });
+  }
+
+  editCar(car: any) {
+    this.editingCarId = car.id;
+  }
+
+  deleteCar(id: number) {
+    this.carService.deleteCar(id).subscribe(() => {
+      console.log('Car deleted');
+      this.Cars = this.Cars.filter((car) => car.id !== id);
+    });
+  }
+
+  resetForm() {
+    this.editingCarId = null;
+  }
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes
 }
