@@ -43,18 +43,18 @@ export class CarService {
   //   return this.http.delete<void>(`${this.apiUrl}/${id}`);
   // }
   
-  private apiUrl = 'https://rentcar.stepprojects.ge/swagger/v1/swagger.json';
+  private apiUrl = 'https://rentcar.stepprojects.ge/api/Car';
 
   constructor(private http: HttpClient) {}
   getCars(): Observable<any[]> {
     return this.http.get<any[]>(this.apiUrl);
   }
 
-  addCar(Product: { name: string; email: string }): Observable<any> {
-    return this.http.post<any>(this.apiUrl, Product);
+  addCar(Car: { name: string; email: string }): Observable<any> {
+    return this.http.post<any>(this.apiUrl, Car);
   }
-  updateCar(id: number, updateProduct: { name: string }): Observable<any> {
-    return this.http.put<any>(this.apiUrl + '/' + id, updateProduct);
+  updateCar(id: number, updateCar: { name: string }): Observable<any> {
+    return this.http.put<any>(this.apiUrl + '/' + id, updateCar);
   }
   deleteCar(id: number): Observable<void> {
     return this.http.delete<void>(this.apiUrl + '/' + id);
