@@ -24,10 +24,11 @@ button{
 
 .details {
   display: flex;
-  flex-direction: column;
   font-size: 0.8rem;
   margin: 10px 0;
   gap: 5px;
+  align-items: center;
+  justify-content: center;
 }
 
 .footer {
@@ -53,4 +54,13 @@ button{
   text-decoration: none;
   display: inline-block;
   font-size: 16px;
+}
+
+span{
+  display: flex;
+  align-items: center;
+}
+
+span img{
+  width: 1.5rem;
 }
