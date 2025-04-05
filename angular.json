@@ -21,10 +21,12 @@
             ],
             "tsConfig": "tsconfig.app.json",
             "assets": [
-              {
-                "glob": "**/*",
-                "input": "public"
-              }
+             "src/favocon.ico",
+             "src/assets",
+             {
+              "glob": "**/**",
+              "input": "public"
+             }
             ],
             "styles": [
               "src/styles.css"

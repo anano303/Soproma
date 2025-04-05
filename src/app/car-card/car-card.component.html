@@ -1,21 +1,3 @@
-<!-- <div class="car-card">
-    <h3>{{ car.brand }}</h3>
-    <p class="model">{{ car.model }} / {{ car.year }}</p>
-    
-    <img [src]="car.imageUrl1" [alt]="car.brand + ' ' + car.model" class="car-image" />
-  
-    <div class="details">
-      <span>&#128663; {{ car.transmission }}</span>
-      <span>&#128100; {{ car.capacity }} Passengers</span>
-      <span>&#128273; {{ car.fuelCapacity }}L Fuel</span>
-    </div>
-  
-    <div class="footer">
-      <span class="price">{{ car.price * car.multiplier }}&#8382; / Day</span>
-      <button class="rent-button">Rent Now</button>
-    </div>
-  </div> -->
-
   <div *ngFor="let car of Cars" class="car-card">
     <h3>{{ car.brand }}</h3>
     <p class="model">{{ car.model }} / {{ car.year }}</p>
@@ -23,21 +5,23 @@
     <img [src]="car.imageUrl1" [alt]="car.brand + ' ' + car.model" class="car-image" />
   
     <div class="details">
-      <span>&#128663; {{ car.transmission }}</span>
-      <span>&#128100; {{ car.capacity }} Passengers</span>
-      <span>&#128273; {{ car.fuelCapacity }}L Fuel</span>
+      <span><img src="../..\assets\images\steering wheel.png" alt="icon">{{ car.transmission }}</span>
+      <span><img src="../..\assets\images\group.png" alt="icon">{{ car.capacity }} კაცი</span>
+      <span><img src="../..\assets\images\gas.png" alt="icon">{{ car.fuelCapacity }}L Fuel</span>
     </div>
   
     <div class="footer">
       <span class="price">{{ car.price * car.multiplier }}&#8382; / Day</span>
-      <button class="edit-button" (click)="editCar(car)">Edit</button>
-      <button class="delete-button" (click)="deleteCar(car.id)">Delete</button>
+      <button>იქირავე</button>
     </div>
   </div>
   
 
-  <div *ngIf="editingCarId !== null" class="edit-form">
+  <!-- <div *ngIf="editingCarId !== null" class="edit-form">
     <h3>Edit Car</h3>
     <button (click)="resetForm()">Cancel</button>
   </div>
-  
+   -->
+   
+ 
+ 
