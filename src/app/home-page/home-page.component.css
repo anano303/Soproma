@@ -1,8 +1,174 @@
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400..700&family=UnifrakturMaguntia&display=swap');
+
 app-car-card{
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 24px;
     margin-top: 2%;
     margin-bottom: 5%;
-
+    align-content: center;
 }
+
+.Cards {
+    margin-top: 2%;
+    padding: 0;
+    font-family: sans-serif;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .card {
+    background: linear-gradient(135deg, #3b9df9, #7fcaff);
+    border-radius: 16px;
+    color: white;
+    padding: 24px;
+    width: 340px;
+    text-align: left;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card2 {
+    background: linear-gradient(135deg, #3b9df9, #7fcaff);
+    border-radius: 16px;
+    color: white;
+    padding: 24px;
+    width: 340px;
+    text-align: left;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card h1 {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 8px;
+  }
+
+  .card2 h1 {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 8px;
+  }
+
+  .card h2 {
+    font-size: 14px;
+    font-weight: normal;
+    margin-bottom: 12px;
+  }
+
+  .card2 h2 {
+    font-size: 14px;
+    font-weight: normal;
+    margin-bottom: 12px;
+  }
+
+  .card p {
+    font-size: 14px;
+    color: #d0ecff;
+    margin-bottom: 20px;
+  }
+
+  .card2 p {
+    font-size: 14px;
+    color: #d0ecff;
+    margin-bottom: 20px;
+  }
+
+  .btn {
+    background-color: #1a5fff;
+    color: white;
+    padding: 10px 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    text-decoration: none;
+  }
+
+  .card .car-img {
+    width: 100%;
+    max-width: 260px;
+    position: absolute;
+    bottom: 10px;
+    right: 2px;
+  }
+
+  .card2 .car-img {
+    width: 100%;
+    max-width: 260px;
+    position: absolute;
+    bottom: 10px;
+    right: -10px;
+    top: 100px;
+  }
+
+  h1{
+    font-size: 200px;
+    font-family: "Dancing Script", cursive;
+    font-optical-sizing: auto;
+    font-weight: bold;
+    font-style: normal;
+  }
+
+ 
+  @media screen and (max-width: 1400px) {
+    h1 {
+      font-size: 150px;
+    }
+  }
+  
+  
+  @media screen and (max-width: 1260px) {
+    h1 {
+      font-size: 120px;
+    }
+  }
+  
+  
+  @media screen and (max-width: 1160px) {
+    h1 {
+      font-size: 80px;
+    }
+  }
+  
+
+  @media screen and (max-width: 1030px) {
+    h1 {
+      font-size: 50px;
+    }
+  }
+  
+  @media screen and (max-width: 930px) {
+    h1 {
+      font-size: 0px;
+    }
+
+    .Cards {
+        display: grid;
+        align-items: center;
+        gap:10px;
+      }
+  }
+
+  @media screen and (max-width: 510px){
+    .card {
+        padding: 18px;
+        width: 300px;
+      }
+
+      .card2 {
+        padding: 18px;
+        width: 300px;
+      }
+
+      .card .car-img {
+        max-width: 230px;
+      }
+    
+      .card2 .car-img {
+        max-width: 230px;
+      }
+  }

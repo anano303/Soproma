@@ -44,3 +44,16 @@ header {
   nav a:active {
     color: gray;
   }
+
+  @media screen and (max-width: 510px){
+    header {
+      display: grid;
+      align-items: center;
+      padding: 15px 20px;
+      background: linear-gradient(90deg, lightgreen, green);
+      color: white;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      gap: 5px;
+    }
+  }
+  

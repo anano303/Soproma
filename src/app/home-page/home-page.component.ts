@@ -3,8 +3,6 @@ import { Component} from '@angular/core';
 import { CarCardComponent } from '../car-card/car-card.component';
 
 
-
-
 @Component({
   selector: 'app-home-page',
   imports: [CommonModule,CarCardComponent],

@@ -6,9 +6,12 @@ button{
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   padding: 15px;
-  background: rgba(255, 255, 255, 0.63);
+  background:  linear-gradient(135deg, #3bf97aa6, #b2ff7fa8);
   text-align: center;
   font-family: Arial, sans-serif;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
 }
 
 .model {
