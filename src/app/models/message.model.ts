@@ -1,6 +1,4 @@
 export interface Message{
-    id:	string,
+    id:	number,
     messageText:string,
-    nullable: boolean
-
 }
