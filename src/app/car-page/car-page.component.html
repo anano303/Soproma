@@ -13,19 +13,23 @@
   
     <div class="specifications">
       <div class="spec-item">
-        <span class="spec-label">Transmission:</span>
+        <span class="spec-label">მდებარეობა:</span>
+        <span class="spec-value">{{ car.city }}</span>
+      </div>
+      <div class="spec-item">
+        <span class="spec-label">ტრანსმისია:</span>
         <span class="spec-value">{{ car.transmission }}</span>
       </div>
       <div class="spec-item">
-        <span class="spec-label">Capacity:</span>
+        <span class="spec-label">ტევადობა:</span>
         <span class="spec-value">{{ car.capacity }} კაცი</span>
       </div>
       <div class="spec-item">
-        <span class="spec-label">Fuel Capacity:</span>
+        <span class="spec-label">საწვავის ავზის ტევადობა:</span>
         <span class="spec-value">{{ car.fuelCapacity }}L</span>
       </div>
       <div class="spec-item">
-        <span class="spec-label">Price:</span>
+        <span class="spec-label">ფასი:</span>
         <span class="spec-value price">{{ car.price * car.multiplier }}&#8382; / დღე</span>
       </div>
     </div>
