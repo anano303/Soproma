@@ -11,8 +11,8 @@
     </div>
   
     <div class="footer">
-      <span class="price">{{ car.price * car.multiplier }}&#8382; / Day</span>
-      <button>იქირავე</button>
+      <span class="price">{{ car.price * car.multiplier }}&#8382; / დღე</span>
+      <button [routerLink]="['/carPage', car.id]">იქირავე</button>
     </div>
   </div>
   

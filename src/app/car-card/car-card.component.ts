@@ -1,16 +1,18 @@
 import { Component } from '@angular/core';
 import { CarService } from '../car.service';
 import { CommonModule } from '@angular/common';
+import { RouterLink, RouterModule } from '@angular/router';
+import { Car } from '../models/car.model';
 
 @Component({
   selector: 'app-car-card',
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink,RouterModule],
   templateUrl: './car-card.component.html',
   styleUrl: './car-card.component.css'
 })
 export class CarCardComponent {
 
-  Cars: any[] = [];
+  Cars: Car[] = [];
   editingCarId: number | null = null; 
 
   constructor(private carService: CarService) {

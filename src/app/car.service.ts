@@ -13,6 +13,10 @@ export class CarService {
     return this.http.get<any[]>(this.apiUrl);
   }
 
+  getCarById(id: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}/${id}`);
+  }
+
   addCar(Car: { name: string; email: string }): Observable<any> {
     return this.http.post<any>(this.apiUrl, Car);
   }

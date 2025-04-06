@@ -1,0 +1,39 @@
+<div *ngIf="car" class="car-detail-container">
+    <h2>{{ car.brand }} {{ car.model }}</h2>
+    <p class="year">{{ car.year }}</p>
+    
+    <div class="image-gallery">
+      <img [src]="car.imageUrl1" [alt]="car.brand + ' ' + car.model" class="main-image">
+      <div class="thumbnail-container">
+        <img [src]="car.imageUrl1" [alt]="car.brand + ' ' + car.model" class="thumbnail">
+        <img [src]="car.imageUrl2 || car.imageUrl1" [alt]="car.brand + ' ' + car.model" class="thumbnail">
+        <img [src]="car.imageUrl3 || car.imageUrl1" [alt]="car.brand + ' ' + car.model" class="thumbnail">
+      </div>
+    </div>
+  
+    <div class="specifications">
+      <div class="spec-item">
+        <span class="spec-label">Transmission:</span>
+        <span class="spec-value">{{ car.transmission }}</span>
+      </div>
+      <div class="spec-item">
+        <span class="spec-label">Capacity:</span>
+        <span class="spec-value">{{ car.capacity }} კაცი</span>
+      </div>
+      <div class="spec-item">
+        <span class="spec-label">Fuel Capacity:</span>
+        <span class="spec-value">{{ car.fuelCapacity }}L</span>
+      </div>
+      <div class="spec-item">
+        <span class="spec-label">Price:</span>
+        <span class="spec-value price">{{ car.price * car.multiplier }}&#8382; / დღე</span>
+      </div>
+    </div>
+  
+    <!-- <div class="description">
+      <h3>Description</h3>
+      <p>{{ car.description || 'No description available.' }}</p>
+    </div> -->
+  
+    <button class="rent-button" (click)="rentCar()">Rent This Car</button>
+  </div>
