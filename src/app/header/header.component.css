@@ -48,12 +48,12 @@ header {
   }
   
   nav a:hover {
-    color: lightblue;
+    color: rgb(109, 109, 109);
     transform: scale(1.1);
   }
   
   nav a:active {
-    color: gray;
+    color: rgb(0, 0, 0);
   }
 
   @media screen and (max-width: 510px){
