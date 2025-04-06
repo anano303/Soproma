@@ -92,7 +92,7 @@ app-car-card{
 
   .card .car-img {
     width: 100%;
-    max-width: 260px;
+    max-width: 240px;
     position: absolute;
     bottom: 10px;
     right: 2px;
@@ -100,11 +100,11 @@ app-car-card{
 
   .card2 .car-img {
     width: 100%;
-    max-width: 260px;
+    max-width: 240px;
     position: absolute;
     bottom: 10px;
     right: -10px;
-    top: 100px;
+    top: 90px;
   }
 
   h1{
@@ -167,10 +167,10 @@ app-car-card{
       }
 
       .card .car-img {
-        max-width: 230px;
+        max-width: 200px;
       }
     
       .card2 .car-img {
-        max-width: 230px;
+        max-width: 200px;
       }
   }
