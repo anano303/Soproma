@@ -56,15 +56,16 @@ header {
     color: rgb(0, 0, 0);
   }
 
-  @media screen and (max-width: 510px){
+  @media screen and (max-width: 560px){
     header {
       display: grid;
       align-items: center;
-      padding: 15px 20px;
+      padding: 10px 15px;
       background: linear-gradient(90deg, lightgreen, green);
       color: white;
       box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-      gap: 5px;
+      gap: 3px;
+      justify-content: center;
     }
   }
   

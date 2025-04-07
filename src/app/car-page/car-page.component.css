@@ -85,3 +85,52 @@
   .rent-button:hover {
     background-color: #038a5a;
   }
+
+
+  @media screen and (max-width: 820px){
+    .car-detail-container {
+      max-width: 600px;
+      margin: 18px auto;
+      padding: 18px;
+   
+    
+     
+  
+    }
+  }
+
+
+  @media screen and (max-width: 640px){
+    .car-detail-container {
+      max-width: 450px;
+      margin: 18px auto;
+      padding: 18px;
+   
+    
+     
+  
+    }
+
+    .main-image {
+      display: flex;
+      width: 60%;
+      height: auto;
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+
+    .image-gallery {
+      margin: 20px 0;
+      align-items: center;
+      justify-content: center;
+      justify-items: center;
+    }
+
+
+    .specifications {
+      display: grid;
+      grid-template-columns: repeat(1, 1fr);
+      gap: 15px;
+      margin: 20px 0;
+    }
+  }
