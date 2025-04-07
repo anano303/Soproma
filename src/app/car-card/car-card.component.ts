@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component} from '@angular/core';
 import { CarService } from '../car.service';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterModule } from '@angular/router';
@@ -11,7 +11,7 @@ import { Car } from '../models/car.model';
   styleUrl: './car-card.component.css'
 })
 export class CarCardComponent {
-
+ 
   Cars: Car[] = [];
   editingCarId: number | null = null; 
 

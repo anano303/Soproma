@@ -1,4 +1,4 @@
-/* car-page.component.css */
+
 .car-detail-container {
     max-width: 800px;
     margin: 20px auto;
@@ -16,6 +16,9 @@
   
   .image-gallery {
     margin: 20px 0;
+    align-items: center;
+    justify-content: center;
+    justify-items: center;
   }
   
   .main-image {
@@ -28,6 +31,9 @@
   .thumbnail-container {
     display: flex;
     gap: 10px;
+    align-items: center;
+    justify-content: center;
+    justify-items: center;
   }
   
   .thumbnail {
@@ -119,14 +125,6 @@
       margin-bottom: 10px;
     }
 
-    .image-gallery {
-      margin: 20px 0;
-      align-items: center;
-      justify-content: center;
-      justify-items: center;
-    }
-
-
     .specifications {
       display: grid;
       grid-template-columns: repeat(1, 1fr);
@@ -134,3 +132,73 @@
       margin: 20px 0;
     }
   }
+
+
+  .rent-days-selector {
+    margin: 20px 0;
+    padding: 15px;
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 5px;
+  }
+  
+  .rent-days-selector label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: bold;
+  }
+  
+  .days-range {
+    width: 100%;
+    height: 8px;
+    margin: 10px 0;
+    -webkit-appearance: none;
+    background: #ddd;
+    border-radius: 5px;
+    outline: none;
+  }
+  
+  .days-range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #04AA6D;
+    cursor: pointer;
+  }
+  
+  .days-range::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #04AA6D;
+    cursor: pointer;
+  }
+  
+  .range-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5px;
+    color: #555;
+  }
+  
+  @media screen and (max-width: 640px) {
+    .rent-days-selector {
+      padding: 10px;
+    }
+  }
+
+
+  .total-price {
+    margin-top: 15px;
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.3);
+    border-radius: 5px;
+    text-align: center;
+  }
+  
+  .total-price h3 {
+    margin: 0;
+    color: #04AA6D;
+  }
+  

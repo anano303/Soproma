@@ -1,4 +1,18 @@
+<div class="search-container">
+    <input 
+      type="text" 
+      [(ngModel)]="searchTerm"
+      placeholder="მოძებნე მანქანა მარკის ან მოდელის მიხედვით..."
+      class="search-input"
+      (keyup.enter)="searchCars()"
+    >
+    <button class="search-button" (click)="searchCars()">
+      <i class="search-icon">🔍</i> ძებნა
+    </button>
+  </div>
 
+
+  
 <div class="Cards">
     <div class="card">
         <h1>საუკეთესო პლატფორმა</h1>

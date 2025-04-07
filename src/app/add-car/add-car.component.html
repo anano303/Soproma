@@ -1,0 +1,79 @@
+<div class="add-car-container">
+    <h2>მანქანის დამატება</h2>
+    
+    <form [formGroup]="carForm" (ngSubmit)="onSubmit()" class="car-form">
+      <div class="form-group">
+        <label for="brand">მარკა:</label>
+        <input id="brand" type="text" formControlName="brand" class="form-control">
+      </div>
+  
+      <div class="form-group">
+        <label for="model">მოდელი:</label>
+        <input id="model" type="text" formControlName="model" class="form-control">
+      </div>
+  
+      <div class="form-group">
+        <label for="year">წელი:</label>
+        <input id="year" type="number" formControlName="year" class="form-control">
+      </div>
+  
+      <div class="form-group">
+        <label for="price">ფასი (დღეში):</label>
+        <input id="price" type="number" formControlName="price" class="form-control">
+      </div>
+  
+      <div class="form-group">
+        <label for="city">ქალაქი:</label>
+        <input id="city" type="text" formControlName="city" class="form-control">
+      </div>
+  
+      <div class="form-group">
+        <label for="transmission">ტრანსმისია:</label>
+        <select id="transmission" formControlName="transmission" class="form-control">
+          <option value="ავტომატიკა">ავტომატიკა</option>
+          <option value="მექანიკა">მექანიკა</option>
+        </select>
+      </div>
+  
+      <div class="form-group">
+        <label for="capacity">ტევადობა (კაცი):</label>
+        <input id="capacity" type="number" formControlName="capacity" class="form-control">
+      </div>
+  
+      <div class="form-group">
+        <label for="fuelCapacity">საწვავის ავზი (ლიტრი):</label>
+        <input id="fuelCapacity" type="number" formControlName="fuelCapacity" class="form-control">
+      </div>
+  
+      <div class="form-group">
+        <label for="multiplier">ფასის მულტიპლიკატორი:</label>
+        <input id="multiplier" type="number" formControlName="multiplier" class="form-control">
+      </div>
+  
+      <div class="form-group">
+        <label for="description">აღწერა:</label>
+        <textarea id="description" formControlName="description" class="form-control"></textarea>
+      </div>
+  
+      <div class="form-group">
+        <label for="images">სურათები (მინიმუმ 1):</label>
+        <input id="images" type="file" (change)="onFileSelected($event)" multiple class="form-control" accept="image/*">
+        <div *ngIf="selectedImages.length > 0" class="image-preview">
+          <p>არჩეული სურათები: {{ selectedImages.length }}</p>
+        </div>
+      </div>
+  
+      <div *ngIf="errorMessage" class="alert alert-danger">
+        {{ errorMessage }}
+      </div>
+  
+      <div *ngIf="successMessage" class="alert alert-success">
+        {{ successMessage }}
+      </div>
+  
+      <button type="submit" class="btn btn-primary" [disabled]="isSubmitting">
+        <span *ngIf="!isSubmitting">დამატება</span>
+        <span *ngIf="isSubmitting">მიმდინარეობს...</span>
+      </button>
+    </form>
+  </div>

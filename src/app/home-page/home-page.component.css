@@ -174,3 +174,64 @@ app-car-card{
         max-width: 200px;
       }
   }
+
+
+  .search-container {
+    margin: 20px auto;
+    max-width: 800px;
+    padding: 0 20px;
+  }
+  
+  .search-input {
+    width: 100%;
+    padding: 12px 20px;
+    border: 2px solid #3b9df9;
+    border-radius: 25px;
+    font-size: 16px;
+    outline: none;
+    transition: all 0.3s;
+  }
+  
+  .search-input:focus {
+    border-color: #1a5fff;
+    box-shadow: 0 0 8px rgba(26, 95, 255, 0.3);
+  }
+  
+  .search-container {
+    display: flex;
+    margin: 20px auto;
+    max-width: 800px;
+    padding: 0 20px;
+    gap: 10px;
+  }
+  
+  .search-input {
+    flex: 1;
+    padding: 12px 20px;
+    border: 2px solid #3b9df9;
+    border-radius: 25px;
+    font-size: 16px;
+    outline: none;
+    transition: all 0.3s;
+  }
+  
+  .search-input:focus {
+    border-color: #1a5fff;
+    box-shadow: 0 0 8px rgba(26, 95, 255, 0.3);
+  }
+  
+  .search-button {
+    background-color: #1a5fff;
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
+  }
+  
+  .search-button:hover {
+    background-color: #0d4bcf;
+  }
+  

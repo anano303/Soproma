@@ -1,4 +1,4 @@
-<div *ngIf="car" class="car-detail-container">
+  <div *ngIf="car" class="car-detail-container">
     <h2>{{ car.brand }} {{ car.model }}</h2>
     <p class="year">{{ car.year }}</p>
     
@@ -17,6 +17,10 @@
         <span class="spec-value">{{ car.city }}</span>
       </div>
       <div class="spec-item">
+        <span class="spec-label">გამოშვების წელი:</span>
+        <span class="spec-value">{{ car.year }}</span>
+      </div>
+      <div class="spec-item">
         <span class="spec-label">ტრანსმისია:</span>
         <span class="spec-value">{{ car.transmission }}</span>
       </div>
@@ -33,11 +37,19 @@
         <span class="spec-value price">{{ car.price * car.multiplier }}&#8382; / დღე</span>
       </div>
     </div>
-  
-    <!-- <div class="description">
-      <h3>Description</h3>
-      <p>{{ car.description || 'No description available.' }}</p>
-    </div> -->
+
+    <div class="rent-days-selector">
+      <label for="days">დღეების რაოდენობა: {{ rentalDays }}</label>
+      <input type="range" id="days" name="days" min="1" max="30" [(ngModel)]="rentalDays" class="days-range">
+      <div class="range-labels">
+        <span>1</span>
+        <span>30</span>
+      </div>
+      
+      <div class="total-price">
+        <h3>ჯამური ფასი: {{ calculateTotalPrice() }}&#8382;</h3>
+      </div>
+    </div>
   
     <button class="rent-button" (click)="rentCar()">Rent This Car</button>
   </div>
