@@ -14,6 +14,10 @@ button{
   align-content: center;
 }
 
+.car-card:hover {
+  transform: translateY(-5px);
+}
+
 .model {
   color: gray;
   font-size: 0.9rem;
