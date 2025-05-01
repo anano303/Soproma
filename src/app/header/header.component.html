@@ -1,15 +1,18 @@
-
 <header class="header">
-    <div class="logo" routerLink="/">Soproma</div>
-    <nav>
-      <a routerLink="/">Home</a>
-      <a routerLink="/register">Register</a>
-      <a href="#">Services</a>
-      <a routerLink="/addCar">Upload</a>
-    </nav>
-  </header>
-  
- 
-  
-  
-  
+  <div class="logo" routerLink="/">Soproma</div>
+  <nav>
+    <a routerLink="/">Home</a>
+
+    <!-- Show these links when user is NOT logged in -->
+    <ng-container *ngIf="!isLoggedIn">
+      <a routerLink="/login">შესვლა</a>
+      <a routerLink="/register">რეგისტრაცია</a>
+    </ng-container>
+
+    <!-- Show these links when user IS logged in -->
+    <ng-container *ngIf="isLoggedIn">
+      <a routerLink="/addCar">მანქანის დამატება</a>
+      <a href="javascript:void(0);" (click)="logout($event)">გასვლა</a>
+    </ng-container>
+  </nav>
+</header>

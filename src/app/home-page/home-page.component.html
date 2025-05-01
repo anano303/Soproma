@@ -108,7 +108,7 @@
         </div>
         <p class="car-location"><i class="icon">📍</i> {{ car.city }}</p>
         <div class="car-price-container">
-          <p class="car-price">{{ car.price * car.multiplier }}₾ / დღე</p>
+          <p class="car-price">{{ calculateCarPrice(car) }}₾ / დღე</p>
           <a [routerLink]="['/car', car.id]" class="view-details-btn"
             >დაჯავშნე</a
           >

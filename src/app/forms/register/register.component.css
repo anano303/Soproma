@@ -12,9 +12,22 @@
   gap: 1rem;
 }
 
+.form-title {
+  font-size: 1.8rem;
+  color: #14532d;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.form-row {
+  display: flex;
+  gap: 1rem;
+}
+
 .form-group {
   display: flex;
   flex-direction: column;
+  flex: 1;
 }
 
 label {
@@ -45,6 +58,25 @@ small {
   margin-top: 0.3rem;
 }
 
+.error-message {
+  background-color: #fee2e2;
+  color: #dc2626;
+  padding: 0.75rem;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  margin: 0.5rem 0;
+  white-space: pre-line;
+}
+
+.success-message {
+  background-color: #d1fae5;
+  color: #065f46;
+  padding: 0.75rem;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  margin: 0.5rem 0;
+}
+
 .green-button {
   background: linear-gradient(135deg, #22c55e, #15803d);
   color: #fff;
@@ -68,36 +100,35 @@ small {
 .green-button:disabled {
   background: #ccc;
   cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
 }
 
-.success-message {
-  background-color: #d1fae5;
-  color: #065f46;
-  padding: 0.75rem;
-  border-radius: 10px;
-  font-size: 0.9rem;
-  margin: 0.5rem 0;
+.form-footer {
   text-align: center;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  color: #4b5563;
 }
 
-/* 🔁 RESPONSIVE DESIGN */
+.form-footer a {
+  color: #15803d;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.form-footer a:hover {
+  text-decoration: underline;
+}
 
 @media (max-width: 768px) {
   .luxury-green-form {
     padding: 1.5rem;
   }
 
-  label {
-    font-size: 0.95rem;
-  }
-
-  .form-control {
-    font-size: 0.95rem;
-  }
-
-  .green-button {
-    font-size: 0.95rem;
-    padding: 0.7rem 1.5rem;
+  .form-row {
+    flex-direction: column;
+    gap: 0.5rem;
   }
 }
 
@@ -105,23 +136,5 @@ small {
   .luxury-green-form {
     padding: 1rem;
     border-radius: 12px;
-  }
-
-  label {
-    font-size: 0.9rem;
-  }
-
-  .form-control {
-    padding: 0.6rem 0.9rem;
-    font-size: 0.9rem;
-  }
-
-  .green-button {
-    font-size: 0.9rem;
-    padding: 0.6rem 1.2rem;
-  }
-
-  small {
-    font-size: 0.8rem;
   }
 }
