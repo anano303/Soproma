@@ -1,124 +1,34 @@
 <div class="search-container">
-  <input
-    type="text"
-    [(ngModel)]="searchTerm"
-    placeholder="მოძებნე მანქანა მარკის ან მოდელის მიხედვით..."
-    class="search-input"
-    (keyup.enter)="searchCars()"
-  />
-  <button class="search-button" (click)="searchCars()">
-    <i class="search-icon">🔍</i> ძებნა
-  </button>
-</div>
-
-<div class="Cards">
-  <div class="card">
-    <h1>საუკეთესო პლატფორმა</h1>
-    <h2>მანქანის საქირავებლად</h2>
-    <p>მანქანის ქირაობა ასეთი ადვილი არასდროს ყოფილა.</p>
-    <button class="btn">იქირავე</button>
-    <img class="car-img" src="../../assets/images/car1.png" alt="car" />
-  </div>
-  <h1>Soproma</h1>
-  <div class="card2">
-    <h1>მანქანის ქირაობა</h1>
-    <h2>ასეთი ადვილი არასდროს ყოფილა</h2>
-    <p>იქირავე მანქანა სასურველ ფასში სასურველი დროით</p>
-    <button class="btn">იქირავე</button>
-    <img class="car-img" src="../../assets/images/car2.webp" alt="car" />
-  </div>
-</div>
-
-<div class="cars-container">
-  <!-- Check if we have cars to display -->
-  <div *ngIf="filteredCars.length > 0; else noCars" class="car-grid">
-    <!-- Loop through filtered cars and display them -->
-    <div *ngFor="let car of filteredCars" class="car-card">
-      <!-- Car details -->
-      <div class="car-image">
-        <img
-          [src]="car.imageUrl1 || 'assets/images/car.jfif'"
-          [alt]="car.brand + ' ' + car.model"
-        />
-      </div>
-      <div class="car-info">
-        <h3>{{ car.brand }} {{ car.model }}</h3>
-        <p class="car-year">{{ car.year }}</p>
-        <div class="car-specs">
-          <span><i class="icon">🚗</i> {{ car.transmission }}</span>
-          <span><i class="icon">👥</i> {{ car.capacity }} კაცი</span>
-          <span><i class="icon">⛽</i> {{ car.fuelCapacity }}L</span>
-        </div>
-        <p class="car-location"><i class="icon">📍</i> {{ car.city }}</p>
-        <div class="car-price-container">
-          <p class="car-price">{{ car.price * car.multiplier }}₾ / დღე</p>
-          <a [routerLink]="['/car', car.id]" class="view-details-btn"
-            >დაჯავშნე</a
-          >
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- No cars message -->
-  <ng-template #noCars>
-    <div class="no-cars-message">
-      <p>მანქანები ვერ მოიძებნა, სცადე სხვა პარამეტრები.</p>
-    </div>
-  </ng-template>
-
-  <!-- Pagination controls -->
-  <div class="pagination-controls">
-    <button [disabled]="currentPage === 1" (click)="prevPage()">წინა</button>
-
-    <span *ngIf="totalPages <= 7">
-      <button
-        *ngFor="let page of [].constructor(totalPages); let i = index"
-        [class.active]="currentPage === i + 1"
-        (click)="goToPage(i + 1)"
-      >
-        {{ i + 1 }}
-      </button>
-    </span>
-
-    <span *ngIf="totalPages > 7">
-      <!-- First page -->
-      <button [class.active]="currentPage === 1" (click)="goToPage(1)">
-        1
-      </button>
-
-      <!-- Ellipsis for pages before current group -->
-      <span *ngIf="currentPage > 4">...</span>
-
-      <!-- Pages around current page -->
-      <ng-container *ngFor="let i of [-2, -1, 0, 1, 2]">
-        <button
-          *ngIf="currentPage + i > 1 && currentPage + i < totalPages"
-          [class.active]="i === 0"
-          (click)="goToPage(currentPage + i)"
-        >
-          {{ currentPage + i }}
-        </button>
-      </ng-container>
-
-      <!-- Ellipsis for pages after current group -->
-      <span *ngIf="currentPage < totalPages - 3">...</span>
-
-      <!-- Last page -->
-      <button
-        [class.active]="currentPage === totalPages"
-        (click)="goToPage(totalPages)"
-      >
-        {{ totalPages }}
-      </button>
-    </span>
-
-    <button [disabled]="currentPage === totalPages" (click)="nextPage()">
-      შემდეგი
+    <input 
+      type="text" 
+      [(ngModel)]="searchTerm"
+      placeholder="მოძებნე მანქანა მარკის ან მოდელის მიხედვით..."
+      class="search-input"
+      (keyup.enter)="searchCars()"
+    >
+    <button class="search-button" (click)="searchCars()">
+      <i class="search-icon">🔍</i> ძებნა
     </button>
-
-    <div class="page-info">
-      გვერდი {{ currentPage }}/{{ totalPages }} ({{ totalItems }} მანქანა სულ)
-    </div>
   </div>
+
+
+  
+<div class="Cards">
+    <div class="card">
+        <h1>საუკეთესო პლატფორმა</h1>
+        <h2>მანქანის საქირავებლად</h2>
+        <p>მანქანის ქირაობა ასეთი ადვილი არასდროს ყოფილა.</p>
+        <button class="btn">იქირავე</button>
+        <img class="car-img" src="../../assets/images/car1.png" alt="car">
+    </div>
+    <h1>Soproma</h1>
+    <div class="card2">
+        <h1>მანქანის ქირაობა</h1>
+        <h2>ასეთი ადვილი არასდროს ყოფილა</h2>
+        <p>იქირავე მანქანა სასურველ ფასში სასურველი დროით</p>
+        <button class="btn">იქირავე</button>
+        <img class="car-img" src="../../assets/images/car2.webp" alt="car">
+    </div>
 </div>
+
+<app-car-card></app-car-card>
