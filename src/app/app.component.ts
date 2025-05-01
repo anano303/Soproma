@@ -1,20 +1,28 @@
-import { Component, Renderer2 } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
+import { UserService } from './services/user.service';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet,HeaderComponent,FooterComponent],
+  standalone: true,
+  imports: [CommonModule, RouterOutlet, HeaderComponent, FooterComponent],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrls: ['./app.component.css'],
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'Soproma';
-  constructor(private renderer: Renderer2) {
-    this.renderer.setStyle(document.body, 'background', 'url(../../../assets/images/background.jpg)');
-    this.renderer.setStyle(document.body, 'background-size', 'cover');
-    this.renderer.setStyle(document.body, 'background-repeat', 'no-repeat');
-    this.renderer.setStyle(document.body, 'background-attachment', 'fixed');
+
+  constructor(private userService: UserService) {}
+
+  ngOnInit() {
+    // Check auth status on app load
+    if (!this.userService.isLoggedIn()) {
+      console.log('App initialization: User not authenticated');
+    } else {
+      console.log('App initialization: User is authenticated');
+    }
   }
 }

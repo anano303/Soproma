@@ -234,4 +234,22 @@ export class HomePageComponent implements OnInit {
 
     console.log('გაფილტრული მანქანები:', this.filteredCars);
   }
+
+  calculateCarPrice(car: Car): number {
+    // Ensure proper numeric calculation
+    const price =
+      typeof car.price === 'number'
+        ? car.price
+        : parseFloat(car.price as any) || 0;
+    const multiplier =
+      typeof car.multiplier === 'number'
+        ? car.multiplier
+        : parseFloat(car.multiplier as any) || 1;
+
+    // Use default multiplier of 1 if missing or invalid
+    const finalMultiplier =
+      isNaN(multiplier) || multiplier <= 0 ? 1 : multiplier;
+
+    return price * finalMultiplier;
+  }
 }

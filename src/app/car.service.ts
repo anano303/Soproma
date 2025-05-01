@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
+import { tap, catchError } from 'rxjs/operators';
 import { Car } from './models/car.model';
 import { CarPaginatedData } from './models/carPaginatedData.model';
 import { CarFilter } from './models/carFilter.model';
@@ -75,8 +76,24 @@ export class CarService {
   }
 
   // Add a new car
-  addCar(carData: FormData): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/Car`, carData);
+  addCar(formData: FormData): Observable<any> {
+    console.log('Sending car data to:', `${this.apiUrl}/Car`);
+
+    // Convert FormData to an object for logging
+    const formDataObj: any = {};
+    formData.forEach((value, key) => {
+      formDataObj[key] = value instanceof File ? `File: ${value.name}` : value;
+    });
+
+    console.log('Form data being sent:', formDataObj);
+
+    return this.http.post<any>(`${this.apiUrl}/Car`, formData).pipe(
+      tap((response) => console.log('Car added response:', response)),
+      catchError((error) => {
+        console.error('Error in addCar:', error);
+        return throwError(() => error);
+      })
+    );
   }
 
   // Update a car
