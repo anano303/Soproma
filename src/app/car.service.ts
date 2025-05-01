@@ -1,53 +1,108 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable,empty } from 'rxjs';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { tap, catchError } from 'rxjs/operators';
 import { Car } from './models/car.model';
-import { catchError } from 'rxjs/operators';
-
+import { CarPaginatedData } from './models/carPaginatedData.model';
+import { CarFilter } from './models/carFilter.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CarService {
-  private apiUrl = 'https://rentcar.stepprojects.ge/api/Car';
+  private apiUrl = 'https://rentcar.stepprojects.ge/api';
 
   constructor(private http: HttpClient) {}
-  // getCars(): Observable<any[]> {
-  //   return this.http.get<any[]>(this.apiUrl);
-  // }
 
-  getCars(): Observable<Car[]> {
-    return this.http.get<Car[]>(this.apiUrl).pipe(
-      catchError(err => {
-        console.error('API შეცდომა:', err);
-        return empty(); 
+  // Get paginated cars
+  getCars(
+    pageIndex: number = 1,
+    pageSize: number = 10
+  ): Observable<CarPaginatedData> {
+    console.log(`Requesting page ${pageIndex} with size ${pageSize}`);
+    return this.http.get<CarPaginatedData>(
+      `${this.apiUrl}/Car/paginated?pageIndex=${pageIndex}&pageSize=${pageSize}`
+    );
+  }
+
+  // Get car by ID
+  getCarById(id: number): Observable<Car> {
+    return this.http.get<Car>(`${this.apiUrl}/Car/${id}`);
+  }
+
+  // Filter cars with multiple criteria
+  filterCars(filter: CarFilter): Observable<CarPaginatedData> {
+    let params = new HttpParams();
+
+    if (filter.capacity !== undefined && filter.capacity > 0) {
+      params = params.set('capacity', filter.capacity.toString());
+    }
+
+    if (filter.startYear !== undefined) {
+      params = params.set('startYear', filter.startYear.toString());
+    }
+
+    if (filter.endYear !== undefined) {
+      params = params.set('endYear', filter.endYear.toString());
+    }
+
+    if (filter.city) {
+      params = params.set('city', filter.city);
+    }
+
+    params = params.set('pageIndex', (filter.pageIndex || 1).toString());
+    params = params.set('pageSize', (filter.pageSize || 10).toString());
+
+    return this.http.get<CarPaginatedData>(`${this.apiUrl}/Car/filter`, {
+      params,
+    });
+  }
+
+  // Get popular cars
+  getPopularCars(): Observable<Car[]> {
+    return this.http.get<Car[]>(`${this.apiUrl}/Car/popular`);
+  }
+
+  // Get cars by phone number
+  getCarsByPhone(phoneNumber: string): Observable<Car[]> {
+    return this.http.get<Car[]>(
+      `${this.apiUrl}/Car/byPhone?phoneNumber=${phoneNumber}`
+    );
+  }
+
+  // Get available cities
+  getCities(): Observable<string[]> {
+    return this.http.get<string[]>(`${this.apiUrl}/Car/cities`);
+  }
+
+  // Add a new car
+  addCar(formData: FormData): Observable<any> {
+    console.log('Sending car data to:', `${this.apiUrl}/Car`);
+
+    // Convert FormData to an object for logging
+    const formDataObj: any = {};
+    formData.forEach((value, key) => {
+      formDataObj[key] = value instanceof File ? `File: ${value.name}` : value;
+    });
+
+    console.log('Form data being sent:', formDataObj);
+
+    return this.http.post<any>(`${this.apiUrl}/Car`, formData).pipe(
+      tap((response) => console.log('Car added response:', response)),
+      catchError((error) => {
+        console.error('Error in addCar:', error);
+        return throwError(() => error);
       })
     );
   }
 
-
-  getCarById(id: number): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/${id}`);
+  // Update a car
+  updateCar(id: number, updateCar: any): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/Car/${id}`, updateCar);
   }
 
-  // addCar(Car: { name: string; email: string }): Observable<any> {
-  //   return this.http.post<any>(this.apiUrl, Car);
-  // }
- 
-  addCar(carData: FormData): Observable<any> {
-    return this.http.post<any>(this.apiUrl, carData);
-  }
-  updateCar(id: number, updateCar: { name: string }): Observable<any> {
-    return this.http.put<any>(this.apiUrl + '/' + id, updateCar);
-  }
+  // Delete a car
   deleteCar(id: number): Observable<void> {
-    return this.http.delete<void>(this.apiUrl + '/' + id);
+    return this.http.delete<void>(`${this.apiUrl}/Car/${id}`);
   }
-
-  uploadCarImage(imageFile: File): Observable<any> {
-    const formData = new FormData();
-    formData.append('image', imageFile);
-    return this.http.post(`${this.apiUrl}/upload`, formData);
-  }
-
 }
