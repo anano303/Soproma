@@ -1,85 +1,30 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {
-  FormBuilder,
-  FormGroup,
-  FormsModule,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
-import { UserService } from '../../services/user.service';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+
 
 @Component({
   selector: 'app-login',
-  standalone: true,
-  imports: [CommonModule, FormsModule, ReactiveFormsModule, RouterLink],
+  imports: [CommonModule,FormsModule,ReactiveFormsModule],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css',
+  styleUrl: './login.component.css'
 })
 export class LoginComponent {
-  loginForm: FormGroup;
-  errorMessage: string = '';
-  successMessage: string = '';
-  loading: boolean = false;
+  useform: FormGroup;
 
-  constructor(
-    private fb: FormBuilder,
-    private userService: UserService,
-    private router: Router
-  ) {
-    this.loginForm = this.fb.group({
-      email: ['', [Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(8)]],
-      phoneNumber: ['', [Validators.required, Validators.minLength(9)]],
-    });
+  constructor(private fb: FormBuilder){
+    this.useform= this.fb.group({
+      email: ['', [Validators.required,  Validators.email]],
+      password: ['', [Validators.required,  Validators.minLength(8)]],
+      phoneNumber: ['', [Validators.required,  Validators.minLength(9)]],
+    })
   }
-
-  onSubmit() {
-    if (this.loginForm.invalid) {
-      this.errorMessage = 'გთხოვთ შეავსოთ ყველა აუცილებელი ველი';
-      return;
+  
+  onSubmit(){
+    if(this.useform.valid){
+      console.log('მონაცემები:', this.useform.value)
+    }else{
+      console.log('ფორმის შევსება ვერ მოხერხდა')
     }
-
-    this.loading = true;
-    this.errorMessage = '';
-    this.successMessage = '';
-
-    // Create login object
-    const loginData = {
-      phoneNumber: this.loginForm.value.phoneNumber,
-      password: this.loginForm.value.password,
-      // Only include email if it's not empty
-      ...(this.loginForm.value.email
-        ? { email: this.loginForm.value.email }
-        : {}),
-    };
-
-    console.log('Attempting login with data:', loginData);
-
-    this.userService.login(loginData).subscribe({
-      next: (response) => {
-        console.log('Login successful, response:', response);
-        this.successMessage =
-          'წარმატებით შეხვედით სისტემაში! გადამისამართება...';
-
-        // Set auth state directly in local storage to ensure it's available
-        localStorage.setItem('isLoggedIn', 'true');
-
-        // Use a longer delay to ensure everything is saved
-        setTimeout(() => {
-          // Use window.location for complete page reload
-          window.location.href = '/';
-        }, 1500);
-      },
-      error: (err) => {
-        console.error('Login failed:', err);
-        this.errorMessage = 'არასწორი მონაცემები. გთხოვთ სცადოთ თავიდან.';
-        this.loading = false;
-      },
-      complete: () => {
-        this.loading = false;
-      },
-    });
   }
 }

@@ -52,23 +52,7 @@ export class CarPageComponent implements OnInit {
 
   calculateTotalPrice(): number {
     if (this.car) {
-      // Ensure multiplication uses proper numeric values
-      const price =
-        typeof this.car.price === 'number'
-          ? this.car.price
-          : parseFloat(this.car.price as any);
-      const multiplier =
-        typeof this.car.multiplier === 'number'
-          ? this.car.multiplier
-          : parseFloat(this.car.multiplier as any) || 1;
-      const days =
-        typeof this.rentalDays === 'number'
-          ? this.rentalDays
-          : parseInt(this.rentalDays as any) || 1;
-
-      // Multiply price by multiplier and days, then return rounded to 2 decimal places
-      const totalPrice = price * Math.max(multiplier, 1) * days;
-      return Math.round(totalPrice * 100) / 100;
+      return this.car.price * this.car.multiplier * this.rentalDays;
     }
     return 0;
   }

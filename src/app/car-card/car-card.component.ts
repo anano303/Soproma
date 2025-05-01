@@ -44,21 +44,4 @@ export class CarCardComponent {
   resetForm() {
     this.editingCarId = null;
   }
-
-  calculatePrice(car: Car): number {
-    // Ensure we have numeric values for calculation
-    const price =
-      typeof car.price === 'number'
-        ? car.price
-        : parseFloat(car.price as any) || 0;
-    const multiplier =
-      typeof car.multiplier === 'number'
-        ? car.multiplier
-        : parseFloat(car.multiplier as any) || 1;
-
-    // Always use at least 1 as multiplier
-    const effectiveMultiplier = Math.max(multiplier, 1);
-
-    return price * effectiveMultiplier;
-  }
 }
