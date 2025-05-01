@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Car } from './models/car.model';
 import { CarPaginatedData } from './models/carPaginatedData.model';
-import { CarFilter } from './models/carFilter.model';
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +12,6 @@ export class CarService {
 
   constructor(private http: HttpClient) {}
 
-  // Get paginated cars
   getCars(
     pageIndex: number = 1,
     pageSize: number = 10
@@ -24,68 +22,25 @@ export class CarService {
     );
   }
 
-  // Get car by ID
   getCarById(id: number): Observable<Car> {
     return this.http.get<Car>(`${this.apiUrl}/Car/${id}`);
   }
 
-  // Filter cars with multiple criteria
-  filterCars(filter: CarFilter): Observable<CarPaginatedData> {
-    let params = new HttpParams();
-
-    if (filter.capacity !== undefined && filter.capacity > 0) {
-      params = params.set('capacity', filter.capacity.toString());
-    }
-
-    if (filter.startYear !== undefined) {
-      params = params.set('startYear', filter.startYear.toString());
-    }
-
-    if (filter.endYear !== undefined) {
-      params = params.set('endYear', filter.endYear.toString());
-    }
-
-    if (filter.city) {
-      params = params.set('city', filter.city);
-    }
-
-    params = params.set('pageIndex', (filter.pageIndex || 1).toString());
-    params = params.set('pageSize', (filter.pageSize || 10).toString());
-
-    return this.http.get<CarPaginatedData>(`${this.apiUrl}/Car/filter`, {
-      params,
-    });
-  }
-
-  // Get popular cars
-  getPopularCars(): Observable<Car[]> {
-    return this.http.get<Car[]>(`${this.apiUrl}/Car/popular`);
-  }
-
-  // Get cars by phone number
-  getCarsByPhone(phoneNumber: string): Observable<Car[]> {
-    return this.http.get<Car[]>(
-      `${this.apiUrl}/Car/byPhone?phoneNumber=${phoneNumber}`
-    );
-  }
-
-  // Get available cities
-  getCities(): Observable<string[]> {
-    return this.http.get<string[]>(`${this.apiUrl}/Car/cities`);
-  }
-
-  // Add a new car
   addCar(carData: FormData): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/Car`, carData);
+    return this.http.post<any>(`${this.apiUrl}/cars`, carData);
   }
 
-  // Update a car
-  updateCar(id: number, updateCar: any): Observable<any> {
-    return this.http.put<any>(`${this.apiUrl}/Car/${id}`, updateCar);
+  updateCar(id: number, updateCar: { name: string }): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}/cars/${id}`, updateCar);
   }
 
-  // Delete a car
   deleteCar(id: number): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/Car/${id}`);
+    return this.http.delete<void>(`${this.apiUrl}/cars/${id}`);
+  }
+
+  uploadCarImage(imageFile: File): Observable<any> {
+    const formData = new FormData();
+    formData.append('image', imageFile);
+    return this.http.post(`${this.apiUrl}/cars/upload`, formData);
   }
 }

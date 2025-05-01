@@ -11,63 +11,6 @@
   </button>
 </div>
 
-<!-- Filter Section -->
-<div class="filter-container">
-  <h3 class="filter-title">ფილტრები</h3>
-  <div class="filter-options">
-    <div class="filter-group">
-      <label for="city">ქალაქი</label>
-      <select id="city" [(ngModel)]="filter.city" class="filter-control">
-        <option [value]="undefined">ყველა ქალაქი</option>
-        <option *ngFor="let city of cities" [value]="city">{{ city }}</option>
-      </select>
-    </div>
-
-    <div class="filter-group">
-      <label for="capacity">ტევადობა</label>
-      <select
-        id="capacity"
-        [(ngModel)]="filter.capacity"
-        class="filter-control"
-      >
-        <option [value]="undefined">ნებისმიერი</option>
-        <option *ngFor="let cap of capacities" [value]="cap">
-          {{ cap }} კაცი
-        </option>
-      </select>
-    </div>
-
-    <div class="filter-group">
-      <label for="startYear">წელი (დან)</label>
-      <select
-        id="startYear"
-        [(ngModel)]="filter.startYear"
-        class="filter-control"
-      >
-        <option [value]="undefined">ნებისმიერი</option>
-        <option *ngFor="let year of years" [value]="year">{{ year }}</option>
-      </select>
-    </div>
-
-    <div class="filter-group">
-      <label for="endYear">წელი (მდე)</label>
-      <select id="endYear" [(ngModel)]="filter.endYear" class="filter-control">
-        <option [value]="undefined">ნებისმიერი</option>
-        <option *ngFor="let year of years" [value]="year">{{ year }}</option>
-      </select>
-    </div>
-
-    <div class="filter-buttons">
-      <button class="apply-filter-btn" (click)="applyFilters()">
-        გამოყენება
-      </button>
-      <button class="clear-filter-btn" (click)="clearFilters()">
-        გასუფთავება
-      </button>
-    </div>
-  </div>
-</div>
-
 <div class="Cards">
   <div class="card">
     <h1>საუკეთესო პლატფორმა</h1>
@@ -123,27 +66,6 @@
       <p>მანქანები ვერ მოიძებნა, სცადე სხვა პარამეტრები.</p>
     </div>
   </ng-template>
-
-  <!-- Active filters indicator -->
-  <div *ngIf="filtersApplied" class="active-filters">
-    <span>აქტიური ფილტრები:</span>
-    <span *ngIf="filter.city" class="filter-tag">
-      ქალაქი: {{ filter.city }}
-      <button (click)="filter.city = undefined; applyFilters()">×</button>
-    </span>
-    <span *ngIf="filter.capacity" class="filter-tag">
-      ტევადობა: {{ filter.capacity }} კაცი
-      <button (click)="filter.capacity = undefined; applyFilters()">×</button>
-    </span>
-    <span *ngIf="filter.startYear" class="filter-tag">
-      წლიდან: {{ filter.startYear }}
-      <button (click)="filter.startYear = undefined; applyFilters()">×</button>
-    </span>
-    <span *ngIf="filter.endYear" class="filter-tag">
-      წლამდე: {{ filter.endYear }}
-      <button (click)="filter.endYear = undefined; applyFilters()">×</button>
-    </span>
-  </div>
 
   <!-- Pagination controls -->
   <div class="pagination-controls">
