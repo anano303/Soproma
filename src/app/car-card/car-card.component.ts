@@ -1,4 +1,4 @@
-import { Component} from '@angular/core';
+import { Component } from '@angular/core';
 import { CarService } from '../car.service';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterModule } from '@angular/router';
@@ -6,22 +6,27 @@ import { Car } from '../models/car.model';
 
 @Component({
   selector: 'app-car-card',
-  imports: [CommonModule, RouterLink,RouterModule],
+  imports: [CommonModule, RouterLink, RouterModule],
   templateUrl: './car-card.component.html',
-  styleUrl: './car-card.component.css'
+  styleUrl: './car-card.component.css',
 })
 export class CarCardComponent {
- 
   Cars: Car[] = [];
-  editingCarId: number | null = null; 
+  editingCarId: number | null = null;
 
   constructor(private carService: CarService) {
     this.fetchCars();
   }
 
+  ngOnInit(): void {
+    this.carService.getCars().subscribe((response) => {
+      this.Cars = response.data; // Access the 'data' property which contains the Car array
+    });
+  }
+
   fetchCars() {
-    this.carService.getCars().subscribe((data) => {
-      this.Cars = data;
+    this.carService.getCars().subscribe((response) => {
+      this.Cars = response.data; // Fix: properly access the data array from the paginated response
     });
   }
 
