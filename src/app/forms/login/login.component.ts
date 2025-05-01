@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   FormBuilder,
@@ -7,7 +7,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { Router, RouterLink } from '@angular/router';
+import { Router, RouterLink, ActivatedRoute } from '@angular/router';
 import { UserService } from '../../services/user.service';
 
 @Component({
@@ -17,22 +17,30 @@ import { UserService } from '../../services/user.service';
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   errorMessage: string = '';
   successMessage: string = '';
   loading: boolean = false;
+  returnUrl: string = '/';
 
   constructor(
     private fb: FormBuilder,
     private userService: UserService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.email]],
       password: ['', [Validators.required, Validators.minLength(8)]],
       phoneNumber: ['', [Validators.required, Validators.minLength(9)]],
     });
+  }
+
+  ngOnInit() {
+    // Get return url from route parameters or default to '/'
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+    console.log('Return URL after login will be:', this.returnUrl);
   }
 
   onSubmit() {
@@ -68,8 +76,12 @@ export class LoginComponent {
 
         // Use a longer delay to ensure everything is saved
         setTimeout(() => {
-          // Use window.location for complete page reload
-          window.location.href = '/';
+          // Use returnUrl for redirection
+          if (this.returnUrl && this.returnUrl !== '/') {
+            window.location.href = this.returnUrl;
+          } else {
+            window.location.href = '/';
+          }
         }, 1500);
       },
       error: (err) => {
