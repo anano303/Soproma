@@ -168,23 +168,26 @@
     </div>
 
     <div class="form-group">
-      <label for="images">სურათები (მინიმუმ 1):</label>
+      <label for="images">სურათები (მინიმუმ 1, მაქსიმუმ 3):</label>
       <input
         id="images"
         type="file"
         (change)="onFileSelected($event)"
         multiple
         class="form-control"
-        accept="image/*"
+        accept="image/jpeg,image/png,image/jpg"
       />
+      <small class="field-hint">
+        დასაშვები ფორმატები: JPG, PNG. მაქსიმალური ზომა: 2MB თითო სურათზე
+      </small>
       <div *ngIf="selectedImages.length === 0" class="info-message">
         გთხოვთ აირჩიოთ მინიმუმ 1 სურათი
       </div>
       <div *ngIf="selectedImages.length > 0" class="image-preview">
-        <p>არჩეული სურათები: {{ selectedImages.length }}</p>
+        <p>არჩეული სურათები: {{ selectedImages.length }}/3</p>
         <ul>
           <li *ngFor="let img of selectedImages">
-            {{ img.name }} ({{ (img.size / 1024).toFixed(2) }} KB)
+            {{ img.name }} ({{ (img.size / 1024 / 1024).toFixed(2) }} MB)
           </li>
         </ul>
       </div>

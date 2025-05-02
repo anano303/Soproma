@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { tap, catchError } from 'rxjs/operators';
 import { Car } from './models/car.model';
@@ -77,21 +77,21 @@ export class CarService {
 
   // Add a new car
   addCar(formData: FormData): Observable<any> {
-    console.log('Sending car data to:', `${this.apiUrl}/Car`);
-
-    // Convert FormData to an object for logging
-    const formDataObj: any = {};
-    formData.forEach((value, key) => {
-      formDataObj[key] = value instanceof File ? `File: ${value.name}` : value;
-    });
-
-    console.log('Form data being sent:', formDataObj);
-
-    return this.http.post<any>(`${this.apiUrl}/Car`, formData).pipe(
-      tap((response) => console.log('Car added response:', response)),
-      catchError((error) => {
+    return this.http.post(`${this.apiUrl}/Car`, formData).pipe(
+      catchError((error: HttpErrorResponse) => {
         console.error('Error in addCar:', error);
-        return throwError(() => error);
+        
+        let errorMessage = 'An error occurred while adding the car';
+        
+        if (error.status === 500) {
+          errorMessage = 'Internal server error occurred';
+        } else if (error.error?.message) {
+          errorMessage = error.error.message;
+        } else if (typeof error.error === 'string') {
+          errorMessage = error.error;
+        }
+        
+        return throwError(() => new Error(errorMessage));
       })
     );
   }

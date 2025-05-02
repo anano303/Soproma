@@ -121,30 +121,47 @@ export class AddCarComponent implements OnInit {
   onFileSelected(event: any): void {
     const files = event.target.files;
     if (files) {
-      this.selectedImages = Array.from(files).slice(0, 3) as File[];
-      console.log(
-        'Selected images:',
-        this.selectedImages.map((file) => file.name)
-      );
-
-      // Check file sizes
-      this.selectedImages.forEach((file) => {
-        console.log(`File ${file.name} size: ${file.size / 1024} KB`);
-      });
+      this.selectedImages = [];
+      this.errorMessage = '';
+      
+      if (files.length > 3) {
+        this.errorMessage = 'მაქსიმუმ 3 სურათის ატვირთვაა შესაძლებელი';
+        return;
+      }
+      
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        console.log(`Validating image ${i + 1}:`, {
+          name: file.name,
+          size: `${(file.size/1024/1024).toFixed(2)}MB`,
+          type: file.type
+        });
+        
+        // Check file size (max 2MB)
+        if (file.size > 2 * 1024 * 1024) {
+          this.errorMessage = `სურათი "${file.name}" ზომა (${(file.size/1024/1024).toFixed(1)}MB) აღემატება დასაშვებ ლიმიტს (2MB)`;
+          return;
+        }
+        
+        // Check file type with more detailed logging
+        const validTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+        if (!validTypes.includes(file.type)) {
+          console.log(`Invalid file type: ${file.type} for file ${file.name}`);
+          this.errorMessage = `სურათი "${file.name}" არასწორი ფორმატისაა (${file.type}). დასაშვებია მხოლოდ JPG და PNG`;
+          return;
+        }
+        
+        this.selectedImages.push(file);
+      }
+      console.log('Successfully validated images:', this.selectedImages.length);
     }
   }
 
-  onSubmit(): void {
-    if (this.carForm.invalid) {
-      this.errorMessage = 'გთხოვთ შეავსოთ ყველა საჭირო ველი';
-      Object.keys(this.carForm.controls).forEach((key) => {
-        if (this.carForm.controls[key].invalid) {
-          console.log(
-            `Field '${key}' is invalid:`,
-            this.carForm.controls[key].errors
-          );
-        }
-      });
+  async onSubmit(): Promise<void> {
+    if (this.carForm.invalid || this.selectedImages.length === 0) {
+      this.errorMessage = this.carForm.invalid ? 
+        'გთხოვთ შეავსოთ ყველა საჭირო ველი' : 
+        'გთხოვთ აირჩიოთ მინიმუმ ერთი სურათი';
       return;
     }
 
@@ -152,136 +169,131 @@ export class AddCarComponent implements OnInit {
     this.errorMessage = '';
     this.successMessage = '';
 
-    const formData = new FormData();
-
-    // Get raw values from form including disabled fields
-    const rawValues = this.carForm.getRawValue();
-
-    // Handle multiplier explicitly to ensure it's saved correctly
-    const multiplier = parseFloat(rawValues.multiplier);
-    if (!isNaN(multiplier)) {
-      formData.append('multiplier', multiplier.toString());
-      console.log('Multiplier set in form data:', multiplier);
-    } else {
-      // Default multiplier to 1 if not valid
-      formData.append('multiplier', '1');
-      console.log('Using default multiplier value: 1');
-    }
-
-    // Handle all other form fields
-    Object.keys(rawValues).forEach((key) => {
-      if (
-        key !== 'multiplier' &&
-        rawValues[key] !== null &&
-        rawValues[key] !== undefined
-      ) {
-        formData.append(key, rawValues[key]);
-      }
-    });
-
-    // Try both capitalized and non-capitalized image field names
-    if (this.selectedImages.length > 0) {
-      formData.append(
-        'Image1',
-        this.selectedImages[0],
-        this.selectedImages[0].name
-      );
-
-      formData.append(
-        'image1',
-        this.selectedImages[0],
-        this.selectedImages[0].name
-      );
-
-      this.convertFileToBase64(this.selectedImages[0]).then((base64) => {
-        formData.append('ImageBase64_1', base64);
+    try {
+      const formData = new FormData();
+      
+      // Add form fields with proper naming
+      const rawValues = this.carForm.getRawValue();
+      Object.keys(rawValues).forEach(key => {
+        if (rawValues[key] !== null && rawValues[key] !== undefined) {
+          // Convert to proper format for API
+          const value = String(rawValues[key]).trim();
+          switch(key) {
+            case 'price':
+            case 'year':
+            case 'capacity':
+            case 'fuelCapacity':
+            case 'multiplier':
+              formData.append(key, Number(value).toString());
+              break;
+            default:
+              formData.append(key, value);
+          }
+        }
       });
 
-      if (this.selectedImages.length > 1) {
-        formData.append(
-          'Image2',
-          this.selectedImages[1],
-          this.selectedImages[1].name
-        );
-        formData.append(
-          'image2',
-          this.selectedImages[1],
-          this.selectedImages[1].name
-        );
-
-        this.convertFileToBase64(this.selectedImages[1]).then((base64) => {
-          formData.append('ImageBase64_2', base64);
-        });
-      }
-
-      if (this.selectedImages.length > 2) {
-        formData.append(
-          'Image3',
-          this.selectedImages[2],
-          this.selectedImages[2].name
-        );
-        formData.append(
-          'image3',
-          this.selectedImages[2],
-          this.selectedImages[2].name
-        );
-
-        this.convertFileToBase64(this.selectedImages[2]).then((base64) => {
-          formData.append('ImageBase64_3', base64);
-        });
-      }
-    }
-
-    console.log('Submitting form data for new car');
-
-    // Log form data entries for debugging
-    formData.forEach((value, key) => {
-      console.log(
-        `${key}: ${
-          value instanceof File
-            ? value.name
-            : typeof value === 'string' && value.length > 100
-            ? 'Base64 content'
-            : value
-        }`
-      );
-    });
-
-    // Make the API request
-    this.carService.addCar(formData).subscribe({
-      next: (response) => {
-        console.log('Car added successfully:', response);
-
-        // Calculate the final price including multiplier for display in success message
-        const finalPrice = response.price * (response.multiplier || 1);
-
-        this.successMessage = `მანქანა წარმატებით დაემატა! ფასი: ${finalPrice}₾ / დღე`;
-        this.carForm.reset();
-        this.selectedImages = [];
-        setTimeout(() => {
-          this.router.navigate(['/']);
-        }, 2000);
-      },
-      error: (err) => {
-        console.error('Error adding car:', err);
-        if (err.error instanceof ErrorEvent) {
-          this.errorMessage = `კლიენტის შეცდომა: ${err.error.message}`;
-        } else {
-          this.errorMessage = `სერვერის შეცდომა (${err.status}): ${
-            err.error?.message || err.message || 'Unknown error'
-          }`;
-          console.error('Response body:', err.error);
+      // Handle images with proper naming convention
+      for (let i = 0; i < this.selectedImages.length; i++) {
+        const file = this.selectedImages[i];
+        try {
+          const compressedBlob = await this.compressImage(file);
+          const imageKey = `Images[${i}]`; // Change to match API expectation
+          formData.append(imageKey, compressedBlob, file.name);
+        } catch (error) {
+          console.error(`Error compressing image ${i + 1}:`, error);
+          throw new Error(`სურათის დამუშავება ვერ მოხერხდა: ${file.name}`);
         }
-        this.isSubmitting = false;
-      },
-      complete: () => {
-        this.isSubmitting = false;
-      },
+      }
+
+      // Submit form with detailed error handling
+      this.carService.addCar(formData).subscribe({
+        next: (response) => {
+          console.log('Car added successfully:', response);
+          const finalPrice = response.price * (response.multiplier || 1);
+          this.successMessage = `მანქანა წარმატებით დაემატა! ფასი: ${finalPrice}₾ / დღე`;
+          this.carForm.reset();
+          this.selectedImages = [];
+          setTimeout(() => this.router.navigate(['/']), 2000);
+        },
+        error: (err) => {
+          console.error('Server Error:', err);
+          
+          if (err.status === 500) {
+            this.errorMessage = 'სერვერის შეცდომა. გთხოვთ სცადოთ მოგვიანებით';
+          } else if (err.error instanceof Error) {
+            this.errorMessage = err.error.message;
+          } else if (typeof err.error === 'string') {
+            this.errorMessage = err.error;
+          } else {
+            this.errorMessage = 'დაფიქსირდა შეცდომა. გთხოვთ, შეამოწმეთ შეყვანილი მონაცემები';
+          }
+          
+          this.isSubmitting = false;
+        },
+        complete: () => {
+          this.isSubmitting = false;
+        }
+      });
+    } catch (err) {
+      console.error('Form processing error:', err);
+      this.errorMessage = err instanceof Error ? err.message : 'დაფიქსირდა შეცდომა დამუშავებისას';
+      this.isSubmitting = false;
+    }
+  }
+
+  private async compressImage(file: File): Promise<Blob> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = (e) => {
+        const img = new Image();
+        img.src = e.target?.result as string;
+        img.onload = () => {
+          const canvas = document.createElement('canvas');
+          let width = img.width;
+          let height = img.height;
+          
+          // Max dimensions
+          const MAX_WIDTH = 1920;
+          const MAX_HEIGHT = 1080;
+          
+          if (width > height) {
+            if (width > MAX_WIDTH) {
+              height = Math.round((height * MAX_WIDTH) / width);
+              width = MAX_WIDTH;
+            }
+          } else {
+            if (height > MAX_HEIGHT) {
+              width = Math.round((width * MAX_HEIGHT) / height);
+              height = MAX_HEIGHT;
+            }
+          }
+          
+          canvas.width = width;
+          canvas.height = height;
+          
+          const ctx = canvas.getContext('2d');
+          ctx?.drawImage(img, 0, 0, width, height);
+          
+          canvas.toBlob(
+            (blob) => {
+              if (blob) {
+                console.log(`Compressed ${file.name} from ${file.size/1024}KB to ${blob.size/1024}KB`);
+                resolve(blob);
+              } else {
+                reject(new Error('Compression failed'));
+              }
+            },
+            'image/jpeg',
+            0.8
+          );
+        };
+      };
+      reader.onerror = reject;
     });
   }
 
-  // Helper method to convert file to base64 string
-  convertFileToBase64(file: File): Promise<string> {
+  private async convertFileToBase64(file: File): Promise<string> {
     return new Promise((resolve, reject) => {
       const reader = new FileReader();
       reader.readAsDataURL(file);
