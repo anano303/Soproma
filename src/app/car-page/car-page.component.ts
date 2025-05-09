@@ -28,7 +28,7 @@ export class CarPageComponent implements OnInit {
       });
     }
 
-    // Load cars with pagination
+
     this.loadCarsWithPagination();
   }
 
@@ -37,10 +37,9 @@ export class CarPageComponent implements OnInit {
     this.carService
       .getCars(this.pageIndex, this.pageSize)
       .subscribe((response) => {
-        // Store the paginated data
+ 
         this.totalPages = response.totalPages;
-        // You can store the cars list if needed like:
-        // this.carsList = response.data;
+
       });
   }
 
@@ -52,7 +51,7 @@ export class CarPageComponent implements OnInit {
 
   calculateTotalPrice(): number {
     if (this.car) {
-      // Ensure multiplication uses proper numeric values
+
       const price =
         typeof this.car.price === 'number'
           ? this.car.price
@@ -66,7 +65,7 @@ export class CarPageComponent implements OnInit {
           ? this.rentalDays
           : parseInt(this.rentalDays as any) || 1;
 
-      // Multiply price by multiplier and days, then return rounded to 2 decimal places
+   
       const totalPrice = price * Math.max(multiplier, 1) * days;
       return Math.round(totalPrice * 100) / 100;
     }

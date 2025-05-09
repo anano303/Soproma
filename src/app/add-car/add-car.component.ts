@@ -63,20 +63,20 @@ export class AddCarComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // Populate and lock the phone number field
+
     this.setUserPhoneNumber();
   }
 
   private setUserPhoneNumber(): void {
-    // Check if user is logged in
+
     if (this.userService.isLoggedIn()) {
-      // Try getting user from current value first
+
       const currentUser = this.userService.currentUserValue;
 
       if (currentUser?.phoneNumber) {
         this.setPhoneNumberInForm(currentUser.phoneNumber);
       } else {
-        // Fallback: try to get from localStorage
+
         try {
           const savedUserString = localStorage.getItem('currentUser');
           if (
@@ -101,19 +101,19 @@ export class AddCarComponent implements OnInit {
   }
 
   private setPhoneNumberInForm(phoneNumber: string): void {
-    // Set the value in the form
+
     this.carForm.patchValue({
       ownerPhoneNumber: phoneNumber,
     });
 
-    // Disable the field so it can't be edited
+
     this.carForm.get('ownerPhoneNumber')?.disable();
 
     console.log('Phone number set and locked:', phoneNumber);
   }
 
   private redirectToLogin(): void {
-    // Show a message and redirect to login
+
     alert('გთხოვთ გაიაროთ ავტორიზაცია მანქანის დასამატებლად');
     this.router.navigate(['/login']);
   }
@@ -137,13 +137,13 @@ export class AddCarComponent implements OnInit {
           type: file.type
         });
         
-        // Check file size (max 2MB)
+
         if (file.size > 2 * 1024 * 1024) {
           this.errorMessage = `სურათი "${file.name}" ზომა (${(file.size/1024/1024).toFixed(1)}MB) აღემატება დასაშვებ ლიმიტს (2MB)`;
           return;
         }
         
-        // Check file type with more detailed logging
+
         const validTypes = ['image/jpeg', 'image/png', 'image/jpg'];
         if (!validTypes.includes(file.type)) {
           console.log(`Invalid file type: ${file.type} for file ${file.name}`);
@@ -172,11 +172,11 @@ export class AddCarComponent implements OnInit {
     try {
       const formData = new FormData();
       
-      // Add form fields with proper naming
+
       const rawValues = this.carForm.getRawValue();
       Object.keys(rawValues).forEach(key => {
         if (rawValues[key] !== null && rawValues[key] !== undefined) {
-          // Convert to proper format for API
+
           const value = String(rawValues[key]).trim();
           switch(key) {
             case 'price':
@@ -192,12 +192,12 @@ export class AddCarComponent implements OnInit {
         }
       });
 
-      // Handle images with proper naming convention
+
       for (let i = 0; i < this.selectedImages.length; i++) {
         const file = this.selectedImages[i];
         try {
           const compressedBlob = await this.compressImage(file);
-          const imageKey = `Images[${i}]`; // Change to match API expectation
+          const imageKey = `Images[${i}]`;
           formData.append(imageKey, compressedBlob, file.name);
         } catch (error) {
           console.error(`Error compressing image ${i + 1}:`, error);
@@ -205,7 +205,7 @@ export class AddCarComponent implements OnInit {
         }
       }
 
-      // Submit form with detailed error handling
+
       this.carService.addCar(formData).subscribe({
         next: (response) => {
           console.log('Car added successfully:', response);

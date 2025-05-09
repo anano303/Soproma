@@ -38,7 +38,7 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
-    // Get return url from route parameters or default to '/'
+
     this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
     console.log('Return URL after login will be:', this.returnUrl);
   }
@@ -53,11 +53,11 @@ export class LoginComponent implements OnInit {
     this.errorMessage = '';
     this.successMessage = '';
 
-    // Create login object
+   
     const loginData = {
       phoneNumber: this.loginForm.value.phoneNumber,
       password: this.loginForm.value.password,
-      // Only include email if it's not empty
+ 
       ...(this.loginForm.value.email
         ? { email: this.loginForm.value.email }
         : {}),
@@ -71,12 +71,12 @@ export class LoginComponent implements OnInit {
         this.successMessage =
           'წარმატებით შეხვედით სისტემაში! გადამისამართება...';
 
-        // Set auth state directly in local storage to ensure it's available
+
         localStorage.setItem('isLoggedIn', 'true');
 
-        // Use a longer delay to ensure everything is saved
+ 
         setTimeout(() => {
-          // Use returnUrl for redirection
+
           if (this.returnUrl && this.returnUrl !== '/') {
             window.location.href = this.returnUrl;
           } else {

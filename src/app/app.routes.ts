@@ -13,10 +13,10 @@ export const routes: Routes = [
   {
     path: 'addCar',
     component: AddCarComponent,
-    canActivate: [AuthGuard], // Protect this route with AuthGuard
+    canActivate: [AuthGuard], 
   },
   { path: 'form', component: FormPageComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: '**', redirectTo: '' }, // Redirect to home for any unknown paths
+  { path: '**', redirectTo: '' }, 
 ];

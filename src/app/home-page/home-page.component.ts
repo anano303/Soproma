@@ -22,23 +22,23 @@ export class HomePageComponent implements OnInit {
   totalPages: number = 1;
   totalItems: number = 0;
 
-  // Filter options
+
   filter: CarFilter = {
     pageIndex: 1,
     pageSize: 10,
   };
 
-  // Available cities for dropdown
+
   cities: string[] = [];
 
-  // Years range for filtering
+
   years: number[] = [];
   currentYear = new Date().getFullYear();
 
-  // Capacities for filtering
+
   capacities: number[] = [2, 4, 5, 6, 7, 8];
 
-  // To track if filters are applied
+
   filtersApplied = false;
 
   constructor(
@@ -46,7 +46,7 @@ export class HomePageComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute
   ) {
-    // Generate years array (from 1990 to current year)
+
     this.years = Array.from(
       { length: this.currentYear - 1989 },
       (_, i) => 1990 + i
@@ -54,10 +54,10 @@ export class HomePageComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // Load available cities
+ 
     this.loadCities();
 
-    // Get filters and page from URL if present
+
     this.route.queryParams.subscribe((params) => {
       this.filter.pageIndex = params['page'] ? parseInt(params['page']) : 1;
       this.filter.capacity = params['capacity']
@@ -73,7 +73,7 @@ export class HomePageComponent implements OnInit {
 
       this.currentPage = this.filter.pageIndex;
 
-      // Determine if we should use filter or just load cars
+  
       if (this.hasActiveFilters()) {
         this.filtersApplied = true;
         this.filterCars();
@@ -98,7 +98,7 @@ export class HomePageComponent implements OnInit {
     this.filter.pageIndex = page;
     this.currentPage = page;
 
-    // If filters are applied, use filterCars method instead
+ 
     if (this.filtersApplied) {
       this.filterCars();
       return;
@@ -112,7 +112,7 @@ export class HomePageComponent implements OnInit {
         this.totalPages = response.totalPages;
         this.totalItems = response.totalItems;
         this.currentPage = response.currentPage;
-        // Update URL with current page
+
         this.updateUrlWithPage(this.currentPage);
       },
       error: (err) => {
@@ -132,7 +132,7 @@ export class HomePageComponent implements OnInit {
         this.totalPages = response.totalPages;
         this.totalItems = response.totalItems;
         this.currentPage = response.currentPage;
-        // Update URL with filter parameters
+
         this.updateUrlWithFilters();
       },
       error: (err) => {
@@ -145,7 +145,7 @@ export class HomePageComponent implements OnInit {
 
   applyFilters(): void {
     this.filtersApplied = this.hasActiveFilters();
-    this.filter.pageIndex = 1; // Reset to first page when applying new filters
+    this.filter.pageIndex = 1;
     this.filterCars();
   }
 
@@ -156,7 +156,7 @@ export class HomePageComponent implements OnInit {
     };
     this.filtersApplied = false;
     this.loadCarsPage(1);
-    // Update URL by removing filter parameters
+
     this.router.navigate([], {
       relativeTo: this.route,
       queryParams: { page: 1 },
@@ -182,7 +182,7 @@ export class HomePageComponent implements OnInit {
   }
 
   updateUrlWithFilters(): void {
-    // Create a clean object with only defined values
+  
     const queryParams: any = { page: this.filter.pageIndex };
 
     if (this.filter.capacity) queryParams.capacity = this.filter.capacity;
@@ -193,7 +193,7 @@ export class HomePageComponent implements OnInit {
     this.router.navigate([], {
       relativeTo: this.route,
       queryParams,
-      queryParamsHandling: '', // Replace all existing query params
+      queryParamsHandling: '', 
     });
   }
 
@@ -219,12 +219,12 @@ export class HomePageComponent implements OnInit {
     console.log('ძებნის ტერმინი:', this.searchTerm);
 
     if (!this.searchTerm?.trim()) {
-      // If search term is empty, reset filters and reload cars
+   
       this.clearFilters();
       return;
     }
 
-    // For simple search, we'll just filter the current cars in memory
+
     const term = this.searchTerm.trim().toLowerCase();
     this.filteredCars = this.allCars.filter((car) => {
       const brandMatch = car.brand?.toLowerCase().includes(term) ?? false;
@@ -236,7 +236,7 @@ export class HomePageComponent implements OnInit {
   }
 
   calculateCarPrice(car: Car): number {
-    // Ensure proper numeric calculation
+
     const price =
       typeof car.price === 'number'
         ? car.price
@@ -246,7 +246,7 @@ export class HomePageComponent implements OnInit {
         ? car.multiplier
         : parseFloat(car.multiplier as any) || 1;
 
-    // Use default multiplier of 1 if missing or invalid
+
     const finalMultiplier =
       isNaN(multiplier) || multiplier <= 0 ? 1 : multiplier;
 

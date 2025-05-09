@@ -45,7 +45,7 @@ export class RegisterComponent {
     );
   }
 
-  // Custom validator to check if passwords match
+
   passwordMatchValidator(form: FormGroup) {
     const password = form.get('password')?.value;
     const confirmPassword = form.get('confirmPassword')?.value;
@@ -61,7 +61,7 @@ export class RegisterComponent {
 
   onSubmit() {
     if (this.registerForm.invalid) {
-      // Mark all fields as touched to trigger validation messages
+
       Object.keys(this.registerForm.controls).forEach((key) => {
         this.registerForm.controls[key].markAsTouched();
       });
@@ -73,7 +73,7 @@ export class RegisterComponent {
     this.errorMessage = '';
     this.successMessage = '';
 
-    // Create user object for registration
+
     const user: UserDTO = {
       firstName: this.registerForm.value.firstName,
       lastName: this.registerForm.value.lastName,
@@ -89,7 +89,7 @@ export class RegisterComponent {
         this.successMessage =
           'რეგისტრაცია წარმატებით დასრულდა! გადამისამართება შესვლის გვერდზე...';
 
-        // Modified: Directly redirect to login page after short delay
+
         setTimeout(() => {
           this.router.navigate(['/login']);
         }, 2000);

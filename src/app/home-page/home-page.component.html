@@ -11,7 +11,7 @@
   </button>
 </div>
 
-<!-- Filter Section -->
+
 <div class="filter-container">
   <h3 class="filter-title">ფილტრები</h3>
   <div class="filter-options">
@@ -87,11 +87,11 @@
 </div>
 
 <div class="cars-container">
-  <!-- Check if we have cars to display -->
+
   <div *ngIf="filteredCars.length > 0; else noCars" class="car-grid">
-    <!-- Loop through filtered cars and display them -->
+
     <div *ngFor="let car of filteredCars" class="car-card">
-      <!-- Car details -->
+
       <div class="car-image">
         <img
           [src]="car.imageUrl1 || 'assets/images/car.jfif'"
@@ -117,14 +117,14 @@
     </div>
   </div>
 
-  <!-- No cars message -->
+
   <ng-template #noCars>
     <div class="no-cars-message">
       <p>მანქანები ვერ მოიძებნა, სცადე სხვა პარამეტრები.</p>
     </div>
   </ng-template>
 
-  <!-- Active filters indicator -->
+
   <div *ngIf="filtersApplied" class="active-filters">
     <span>აქტიური ფილტრები:</span>
     <span *ngIf="filter.city" class="filter-tag">
@@ -145,7 +145,7 @@
     </span>
   </div>
 
-  <!-- Pagination controls -->
+
   <div class="pagination-controls">
     <button [disabled]="currentPage === 1" (click)="prevPage()">წინა</button>
 
@@ -160,15 +160,15 @@
     </span>
 
     <span *ngIf="totalPages > 7">
-      <!-- First page -->
+
       <button [class.active]="currentPage === 1" (click)="goToPage(1)">
         1
       </button>
 
-      <!-- Ellipsis for pages before current group -->
+
       <span *ngIf="currentPage > 4">...</span>
 
-      <!-- Pages around current page -->
+
       <ng-container *ngFor="let i of [-2, -1, 0, 1, 2]">
         <button
           *ngIf="currentPage + i > 1 && currentPage + i < totalPages"
@@ -179,10 +179,10 @@
         </button>
       </ng-container>
 
-      <!-- Ellipsis for pages after current group -->
+
       <span *ngIf="currentPage < totalPages - 3">...</span>
 
-      <!-- Last page -->
+
       <button
         [class.active]="currentPage === totalPages"
         (click)="goToPage(totalPages)"

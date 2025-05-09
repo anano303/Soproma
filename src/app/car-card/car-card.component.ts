@@ -20,13 +20,13 @@ export class CarCardComponent {
 
   ngOnInit(): void {
     this.carService.getCars().subscribe((response) => {
-      this.Cars = response.data; // Access the 'data' property which contains the Car array
+      this.Cars = response.data;
     });
   }
 
   fetchCars() {
     this.carService.getCars().subscribe((response) => {
-      this.Cars = response.data; // Fix: properly access the data array from the paginated response
+      this.Cars = response.data;
     });
   }
 
@@ -46,7 +46,7 @@ export class CarCardComponent {
   }
 
   calculatePrice(car: Car): number {
-    // Ensure we have numeric values for calculation
+    
     const price =
       typeof car.price === 'number'
         ? car.price
@@ -56,7 +56,7 @@ export class CarCardComponent {
         ? car.multiplier
         : parseFloat(car.multiplier as any) || 1;
 
-    // Always use at least 1 as multiplier
+    
     const effectiveMultiplier = Math.max(multiplier, 1);
 
     return price * effectiveMultiplier;

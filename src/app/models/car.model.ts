@@ -9,8 +9,8 @@ export interface Car {
   image1?: string;
   image2?: string;
   image3?: string;
-  price: number; // Ensure this is defined as a number
-  multiplier: number; // Ensure this is defined as a number
+  price: number; 
+  multiplier: number; 
   capacity: number;
   transmission: string;
   createdBy: string;

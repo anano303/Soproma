@@ -23,10 +23,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
-    // Check auth status immediately
+
     this.updateLoginStatus();
 
-    // Subscribe to user subject to get updates when login/logout happens
+ 
     this.userSubscription = this.userService.currentUser.subscribe((user) => {
       this.ngZone.run(() => {
         this.isLoggedIn = !!user || !!localStorage.getItem('token');
@@ -34,12 +34,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
       });
     });
 
-    // Check auth status every 5 seconds
+   
     this.authCheckSubscription = interval(5000).subscribe(() => {
       this.updateLoginStatus();
     });
 
-    // Also check when window gets focus
+
     window.addEventListener('focus', () => this.updateLoginStatus());
   }
 
@@ -63,7 +63,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         hasToken || explicitLoginFlag || this.userService.isLoggedIn();
       console.log('Header login status updated:', this.isLoggedIn);
 
-      // If login status changed from true to false, user was logged out
+   
       if (wasLoggedIn && !this.isLoggedIn) {
         console.log('User was logged out, updating UI');
       }
@@ -73,14 +73,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
   logout(event: Event) {
     event.preventDefault();
 
-    // Clear all auth flags
+
     this.userService.logout();
     localStorage.removeItem('isLoggedIn');
 
-    // Update UI
+ 
     this.isLoggedIn = false;
 
-    // Force page refresh
+ 
     window.location.href = '/';
   }
 }
