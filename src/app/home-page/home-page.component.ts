@@ -18,7 +18,7 @@ export class HomePageComponent implements OnInit {
   allCars: Car[] = [];
   filteredCars: Car[] = [];
   currentPage: number = 1;
-  pageSize: number = 10;
+  pageSize: number = 12;
   totalPages: number = 1;
   totalItems: number = 0;
 
