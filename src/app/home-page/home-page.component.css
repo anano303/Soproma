@@ -172,24 +172,34 @@ h1 {
 }
 
 .search-container {
-  margin: 20px auto;
-  max-width: 800px;
-  padding: 0 20px;
+  position: relative;
+  background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  margin: 40px auto;
+  max-width: 900px;
 }
 
 .search-input {
-  width: 100%;
-  padding: 12px 20px;
-  border: 2px solid #3b9df9;
-  border-radius: 25px;
-  font-size: 16px;
-  outline: none;
-  transition: all 0.3s;
+  background: white;
+  border: 2px solid #e9ecef;
+  transition: all 0.3s ease;
 }
 
 .search-input:focus {
-  border-color: #1a5fff;
-  box-shadow: 0 0 8px rgba(26, 95, 255, 0.3);
+  border-color: #2c5364;
+  box-shadow: 0 0 15px rgba(44, 83, 100, 0.1);
+}
+
+.search-button {
+  background: linear-gradient(90deg, #2c5364, #203a43);
+  transition: all 0.3s ease;
+}
+
+.search-button:hover {
+  background: linear-gradient(90deg, #203a43, #2c5364);
+  transform: scale(1.05);
 }
 
 .search-container {
@@ -609,4 +619,96 @@ h1 {
   .clear-filter-btn {
     flex: 1;
   }
+}
+
+.search-container {
+  position: relative;
+  background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  margin: 40px auto;
+  max-width: 900px;
+}
+
+.search-input {
+  background: white;
+  border: 2px solid #e9ecef;
+  transition: all 0.3s ease;
+}
+
+.search-input:focus {
+  border-color: #2c5364;
+  box-shadow: 0 0 15px rgba(44, 83, 100, 0.1);
+}
+
+.search-button {
+  background: linear-gradient(90deg, #2c5364, #203a43);
+  transition: all 0.3s ease;
+}
+
+.search-button:hover {
+  background: linear-gradient(90deg, #203a43, #2c5364);
+  transform: scale(1.05);
+}
+
+.filter-container {
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+  padding: 25px;
+  margin: 30px auto;
+}
+
+.filter-title {
+  color: #2c5364;
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  position: relative;
+}
+
+.filter-title::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 50px;
+  height: 3px;
+  background: linear-gradient(90deg, #2c5364, #203a43);
+}
+
+.filter-control {
+  border: 2px solid #e9ecef;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.filter-control:focus {
+  border-color: #2c5364;
+  box-shadow: 0 0 10px rgba(44, 83, 100, 0.1);
+}
+
+.apply-filter-btn {
+  background: linear-gradient(90deg, #2c5364, #203a43);
+  color: white;
+  border: none;
+  padding: 12px 25px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.apply-filter-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(44, 83, 100, 0.2);
+}
+
+.clear-filter-btn {
+  background: #f8f9fa;
+  color: #2c5364;
+  border: 2px solid #e9ecef;
+  transition: all 0.3s ease;
+}
+
+.clear-filter-btn:hover {
+  background: #e9ecef;
 }
