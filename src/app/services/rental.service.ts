@@ -36,6 +36,13 @@ export class RentalService {
     this.rentals.next(newRentals);
   }
 
+  deleteRental(index: number) {
+    const currentRentals = this.rentals.value;
+    currentRentals.splice(index, 1);
+    this.saveRentals(currentRentals);
+    this.rentals.next(currentRentals);
+  }
+
   getRentals() {
     return this.rentals.asObservable();
   }

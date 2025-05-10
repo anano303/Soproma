@@ -42,4 +42,8 @@ export class ProfileComponent implements OnInit {
   getUserName(): string {
     return this.userName;
   }
+
+  deleteRental(index: number) {
+    this.rentalService.deleteRental(index);
+  }
 }
