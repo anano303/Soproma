@@ -1,1 +1,60 @@
-<p>profile works!</p>
+<div class="profile-container">
+  <div class="user-info">
+    <h2>პროფილი</h2>
+    <div class="user-details">
+      <div class="detail-item">
+        <span class="label">სახელი:</span>
+        <span class="value">{{ user?.firstName }}</span>
+      </div>
+      <div class="detail-item">
+        <span class="label">გვარი:</span>
+        <span class="value">{{ user?.lastName }}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="rental-history">
+    <h3>ნაქირავები მანქანები</h3>
+    
+    <div *ngIf="rentals?.length; else noRentals" class="rentals-grid">
+      <div *ngFor="let rental of rentals" class="rental-card">
+        <div class="car-image">
+          <img [src]="rental.car.imageUrl1" [alt]="rental.car.brand + ' ' + rental.car.model">
+        </div>
+        <div class="rental-details">
+          <h4>{{ rental.car.brand }} {{ rental.car.model }}</h4>
+          <div class="detail-row">
+            <i class="icon">📍</i>
+            <span>{{ rental.car.city }}</span>
+          </div>
+          <div class="detail-row">
+            <i class="icon">⏱️</i>
+            <span>ქირაობის ხანგრძლივობა: {{ rental.days }} დღე</span>
+          </div>
+          <div class="detail-row">
+            <i class="icon">💰</i>
+            <span>ჯამური ღირებულება: {{ rental.totalPrice }}₾</span>
+          </div>
+          <div class="detail-row">
+            <i class="icon">💳</i>
+            <span>დღიური ღირებულება: {{ rental.totalPrice / rental.days }}₾</span>
+          </div>
+          <div class="rental-dates">
+            <small>
+              <i class="icon">📅</i>
+              დაწყება: {{ rental.startDate | date:'medium' }} - 
+              დასრულება: {{ rental.endDate | date:'medium' }}
+            </small>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <ng-template #noRentals>
+      <div class="no-rentals">
+        <p>თქვენ ჯერ არ გაქვთ ნაქირავები მანქანები</p>
+      </div>
+    </ng-template>
+  </div>
+</div>
+

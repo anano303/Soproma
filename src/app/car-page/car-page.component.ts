@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CarService } from '../car.service';
 import { CommonModule } from '@angular/common';
 import { Car } from '../models/car.model';
 import { FormsModule } from '@angular/forms';
+import { RentalService, CarRental } from '../services/rental.service';
 
 @Component({
   selector: 'app-car-page',
@@ -18,7 +19,7 @@ export class CarPageComponent implements OnInit {
   pageSize: number = 10;
   totalPages: number = 1;
 
-  constructor(private route: ActivatedRoute, private carService: CarService) {}
+  constructor(private route: ActivatedRoute, private carService: CarService, private rentalService: RentalService, private router: Router) {}
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
@@ -74,13 +75,22 @@ export class CarPageComponent implements OnInit {
 
   rentCar(): void {
     if (this.car) {
-      const totalPrice = this.calculateTotalPrice();
-      console.log(
-        `Renting car: ${this.car.brand} ${this.car.model} for ${this.rentalDays} days`
-      );
-      alert(
-        `შენ იქირავე "${this.car.brand} ${this.car.model}" ${this.rentalDays} დღით, ჯამური ფასი: ${totalPrice}₾`
-      );
+      const rental: CarRental = {
+        car: {
+          brand: this.car.brand,
+          model: this.car.model,
+          city: this.car.city,
+          imageUrl1: this.car.imageUrl1
+        },
+        totalPrice: this.calculateTotalPrice(),
+        days: this.rentalDays,
+        startDate: new Date(),
+        endDate: new Date(Date.now() + this.rentalDays * 24 * 60 * 60 * 1000)
+      };
+      
+      this.rentalService.addRental(rental);
+      alert('მანქანა წარმატებით დაჯავშნილია!');
+      this.router.navigate(['/profile']);
     }
   }
 }
