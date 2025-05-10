@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 export interface CarRental {
+  id: string; // Changed to string since localStorage typically stores strings
   car: {
     brand: string;
     model: string;
@@ -36,7 +37,39 @@ export class RentalService {
     this.rentals.next(newRentals);
   }
 
-  getRentals() {
-    return this.rentals.asObservable();
+  getRentals(): Observable<CarRental[]> {
+    return new Observable(observer => {
+      const rentals = JSON.parse(localStorage.getItem('rentals') || '[]');
+      observer.next(rentals);
+      observer.complete();
+    });
+  }
+
+  deleteRental(id: string): Observable<void> {
+    return new Observable(observer => {
+      try {
+        const rentals = JSON.parse(localStorage.getItem('rentals') || '[]');
+        const updatedRentals = rentals.filter((rental: CarRental) => rental.id !== id);
+        localStorage.setItem('rentals', JSON.stringify(updatedRentals));
+        observer.next();
+        observer.complete();
+      } catch (error) {
+        observer.error(error);
+      }
+    });
+  }
+
+  saveRental(rental: CarRental): Observable<void> {
+    return new Observable(observer => {
+      try {
+        const existingRentals = JSON.parse(localStorage.getItem('rentals') || '[]');
+        existingRentals.push(rental);
+        localStorage.setItem('rentals', JSON.stringify(existingRentals));
+        observer.next();
+        observer.complete();
+      } catch (error) {
+        observer.error(error);
+      }
+    });
   }
 }

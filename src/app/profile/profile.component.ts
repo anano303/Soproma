@@ -42,4 +42,15 @@ export class ProfileComponent implements OnInit {
   getUserName(): string {
     return this.userName;
   }
+
+  deleteRental(id: string): void {
+    this.rentalService.deleteRental(id).subscribe({
+      next: () => {
+        this.rentals = this.rentals.filter(rental => rental.id !== id);
+      },
+      error: (error) => {
+        console.error('Error deleting rental:', error);
+      }
+    });
+  }
 }

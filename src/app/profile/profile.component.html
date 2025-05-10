@@ -47,6 +47,9 @@
               დასრულება: {{ rental.endDate | date:'medium' }}
             </small>
           </div>
+          <button class="delete-btn" (click)="deleteRental(rental.id)">
+            <i class="icon">🗑️</i> წაშლა
+          </button>
         </div>
       </div>
     </div>

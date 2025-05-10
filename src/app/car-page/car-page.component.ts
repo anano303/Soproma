@@ -76,6 +76,7 @@ export class CarPageComponent implements OnInit {
   rentCar(): void {
     if (this.car) {
       const rental: CarRental = {
+        id: Date.now().toString(), // Add unique ID using timestamp
         car: {
           brand: this.car.brand,
           model: this.car.model,
