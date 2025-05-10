@@ -18,12 +18,11 @@
     <h3>ნაქირავები მანქანები</h3>
     
     <div *ngIf="rentals?.length; else noRentals" class="rentals-grid">
-      <div *ngFor="let rental of rentals; let i = index" class="rental-card">
+      <div *ngFor="let rental of rentals" class="rental-card">
         <div class="car-image">
           <img [src]="rental.car.imageUrl1" [alt]="rental.car.brand + ' ' + rental.car.model">
         </div>
         <div class="rental-details">
-          <button class="delete-btn" (click)="deleteRental(i)">წაშლა</button>
           <h4>{{ rental.car.brand }} {{ rental.car.model }}</h4>
           <div class="detail-row">
             <i class="icon">📍</i>
