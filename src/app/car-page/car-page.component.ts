@@ -18,19 +18,52 @@ export class CarPageComponent implements OnInit {
   pageIndex: number = 1;
   pageSize: number = 10;
   totalPages: number = 1;
+  isFavorite: boolean = false;
 
-  constructor(private route: ActivatedRoute, private carService: CarService, private rentalService: RentalService, private router: Router) {}
+  constructor(
+    private route: ActivatedRoute, 
+    private carService: CarService, 
+    private rentalService: RentalService, 
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
       this.carService.getCarById(+id).subscribe((car) => {
         this.car = car;
+        this.checkIfFavorite();
       });
     }
-
-
     this.loadCarsWithPagination();
+  }
+
+  checkIfFavorite(): void {
+    if (this.car) {
+      const favorites = this.getFavorites();
+      this.isFavorite = favorites.some(fav => fav.id === this.car?.id);
+    }
+  }
+
+  toggleFavorite(): void {
+    if (!this.car) return;
+
+    const favorites = this.getFavorites();
+    
+    if (this.isFavorite) {
+      const index = favorites.findIndex(fav => fav.id === this.car?.id);
+      favorites.splice(index, 1);
+    } else {
+      favorites.push(this.car);
+    }
+
+    localStorage.setItem('favorites', JSON.stringify(favorites));
+    this.isFavorite = !this.isFavorite;
+  }
+
+  private getFavorites(): Car[] {
+    const favoritesJson = localStorage.getItem('favorites');
+    return favoritesJson ? JSON.parse(favoritesJson) : [];
   }
 
   loadCarsWithPagination(pageIndex: number = 1): void {
@@ -78,6 +111,7 @@ export class CarPageComponent implements OnInit {
       const rental: CarRental = {
         id: Date.now().toString(), // Add unique ID using timestamp
         car: {
+          id: this.car.id, // Add this line
           brand: this.car.brand,
           model: this.car.model,
           city: this.car.city,

@@ -1,4 +1,4 @@
-  <div *ngIf="car" class="car-detail-container">
+<div *ngIf="car" class="car-detail-container">
     <h2>{{ car.brand }} {{ car.model }}</h2>
     <p class="year">{{ car.year }}</p>
     
@@ -50,6 +50,12 @@
         <h3>ჯამური ფასი: {{ calculateTotalPrice() }}&#8382;</h3>
       </div>
     </div>
-  
-    <button class="rent-button" (click)="rentCar()">Rent This Car</button>
+
+    <div class="action-buttons">
+      <button class="favorite-button" (click)="toggleFavorite()" [class.favorited]="isFavorite">
+        <i class="heart-icon">{{ isFavorite ? '❤️' : '🤍' }}</i>
+        {{ isFavorite ? 'ფავორიტებიდან წაშლა' : 'ფავორიტებში დამატება' }}
+      </button>
+      <button class="rent-button" (click)="rentCar()">დაჯავშნა</button>
+    </div>
   </div>

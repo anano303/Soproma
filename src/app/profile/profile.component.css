@@ -119,3 +119,114 @@
   background: #f9f9f9;
   border-radius: 10px;
 }
+
+.rental-actions {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.view-details {
+  background: #28a745;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: background-color 0.2s;
+}
+
+.view-details:hover {
+  background: #218838;
+}
+
+.view-details.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
+.favorites-section {
+  margin-top: 2rem;
+  padding: 1rem;
+}
+
+.favorites-section h3 {
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.favorites-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1rem;
+}
+
+.favorite-car-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  background: white;
+  transition: transform 0.2s;
+}
+
+.favorite-car-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.favorite-car-image {
+  height: 200px;
+  overflow: hidden;
+}
+
+.favorite-car-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.favorite-car-info {
+  padding: 1rem;
+}
+
+.favorite-car-info h4 {
+  margin: 0;
+  color: #333;
+}
+
+.favorite-car-price {
+  font-weight: bold;
+  color: #28a745;
+  margin: 0.5rem 0;
+}
+
+.favorite-car-actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.remove-favorite, .view-details {
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  text-decoration: none;
+  text-align: center;
+}
+
+.remove-favorite {
+  background: #ff4444;
+  color: white;
+  border: none;
+}
+
+.view-details {
+  background: #28a745;
+  color: white;
+}
+
+.no-favorites-message {
+  text-align: center;
+  color: #666;
+  padding: 2rem;
+}

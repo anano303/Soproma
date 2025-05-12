@@ -252,4 +252,27 @@ export class HomePageComponent implements OnInit {
 
     return price * finalMultiplier;
   }
+
+  isFavorite(car: Car): boolean {
+    const favorites = this.getFavorites();
+    return favorites.some(fav => fav.id === car.id);
+  }
+
+  toggleFavorite(car: Car): void {
+    const favorites = this.getFavorites();
+    
+    if (this.isFavorite(car)) {
+      const index = favorites.findIndex(fav => fav.id === car.id);
+      favorites.splice(index, 1);
+    } else {
+      favorites.push(car);
+    }
+
+    localStorage.setItem('favorites', JSON.stringify(favorites));
+  }
+
+  private getFavorites(): Car[] {
+    const favoritesJson = localStorage.getItem('favorites');
+    return favoritesJson ? JSON.parse(favoritesJson) : [];
+  }
 }

@@ -91,7 +91,9 @@
   <div *ngIf="filteredCars.length > 0; else noCars" class="car-grid">
 
     <div *ngFor="let car of filteredCars" class="car-card">
-
+      <div class="favorite-icon" (click)="toggleFavorite(car)" [class.favorited]="isFavorite(car)">
+        {{ isFavorite(car) ? '❤️' : '🤍' }}
+      </div>
       <div class="car-image">
         <img
           [src]="car.imageUrl1 || 'assets/images/car.jfif'"

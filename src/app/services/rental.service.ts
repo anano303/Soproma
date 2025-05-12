@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 
 export interface CarRental {
-  id: string; // Changed to string since localStorage typically stores strings
+  id: string;
   car: {
+    id?: number; // Add optional id property
     brand: string;
     model: string;
     city: string;

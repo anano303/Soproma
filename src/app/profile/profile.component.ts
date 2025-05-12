@@ -2,11 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from '../services/user.service';
 import { CommonModule, DatePipe } from '@angular/common';
 import { RentalService, CarRental } from '../services/rental.service';
+import { Car } from '../models/car.model';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-profile',
   standalone: true,
-  imports: [CommonModule, DatePipe],
+  imports: [CommonModule, DatePipe, RouterModule],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css'
 })
@@ -14,6 +16,7 @@ export class ProfileComponent implements OnInit {
   userName: string = 'მომხმარებელი';
   user: any;
   rentals: CarRental[] = [];
+  favorites: Car[] = [];
 
   constructor(
     public userService: UserService,
@@ -37,6 +40,8 @@ export class ProfileComponent implements OnInit {
     this.rentalService.getRentals().subscribe(rentals => {
       this.rentals = rentals;
     });
+
+    this.loadFavorites();
   }
 
   getUserName(): string {
@@ -52,5 +57,15 @@ export class ProfileComponent implements OnInit {
         console.error('Error deleting rental:', error);
       }
     });
+  }
+
+  loadFavorites() {
+    const favoritesJson = localStorage.getItem('favorites');
+    this.favorites = favoritesJson ? JSON.parse(favoritesJson) : [];
+  }
+
+  removeFavorite(car: Car) {
+    this.favorites = this.favorites.filter(f => f.id !== car.id);
+    localStorage.setItem('favorites', JSON.stringify(this.favorites));
   }
 }

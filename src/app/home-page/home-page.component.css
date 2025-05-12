@@ -311,6 +311,7 @@ h1 {
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   display: flex;
   flex-direction: column;
+  position: relative;
 }
 
 .car-card:hover {
@@ -711,4 +712,29 @@ h1 {
 
 .clear-filter-btn:hover {
   background: #e9ecef;
+}
+
+.favorite-icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 1;
+  font-size: 18px;
+}
+
+.favorite-icon:hover {
+  transform: scale(1.1);
+}
+
+.favorite-icon.favorited {
+  background: rgba(255, 235, 235, 0.9);
 }
