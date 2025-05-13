@@ -4,6 +4,7 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { RentalService, CarRental } from '../services/rental.service';
 import { Car } from '../models/car.model';
 import { RouterModule } from '@angular/router';
+import { CarService } from '../car.service';
 
 @Component({
   selector: 'app-profile',
@@ -17,10 +18,12 @@ export class ProfileComponent implements OnInit {
   user: any;
   rentals: CarRental[] = [];
   favorites: Car[] = [];
+  uploadedCars: Car[] = [];
 
   constructor(
     public userService: UserService,
-    private rentalService: RentalService
+    private rentalService: RentalService,
+    private carService: CarService
   ) {}
 
   ngOnInit(): void {
@@ -42,6 +45,7 @@ export class ProfileComponent implements OnInit {
     });
 
     this.loadFavorites();
+    this.loadUploadedCars();
   }
 
   getUserName(): string {
@@ -67,5 +71,33 @@ export class ProfileComponent implements OnInit {
   removeFavorite(car: Car) {
     this.favorites = this.favorites.filter(f => f.id !== car.id);
     localStorage.setItem('favorites', JSON.stringify(this.favorites));
+  }
+
+  loadUploadedCars(): void {
+    const userId = localStorage.getItem('userId');
+    if (userId) {
+      this.carService.getUserCars(userId).subscribe({
+        next: (cars: Car[]) => {
+          this.uploadedCars = cars;
+        },
+        error: (err: Error) => {
+          console.error('Error loading uploaded cars:', err);
+          this.uploadedCars = [];
+        }
+      });
+    }
+  }
+
+  deleteCar(carId: number): void {
+    if (confirm('ნამდვილად გსურთ მანქანის წაშლა?')) {
+      this.carService.deleteCar(carId).subscribe({
+        next: () => {
+          this.uploadedCars = this.uploadedCars.filter(car => car.id !== carId);
+        },
+        error: (err: Error) => {
+          console.error('Error deleting car:', err);
+        }
+      });
+    }
   }
 }

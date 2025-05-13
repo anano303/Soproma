@@ -105,4 +105,9 @@ export class CarService {
   deleteCar(id: number): Observable<void> {
     return this.http.delete<void>(`${this.apiUrl}/Car/${id}`);
   }
+
+  // Get cars uploaded by a specific user
+  getUserCars(userId: string): Observable<Car[]> {
+    return this.http.get<Car[]>(`${this.apiUrl}/cars/user/${userId}`);
+  }
 }
