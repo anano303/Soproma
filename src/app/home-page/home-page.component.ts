@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { CarService } from '../car.service';
 import { Car } from '../models/car.model';
 import { Router, ActivatedRoute, RouterLink } from '@angular/router';
-import { CarFilter } from '../models/carFilter.model';
+import { CarFilter, PopularityFilter } from '../models/carFilter.model';
 
 @Component({
   selector: 'app-home-page',
@@ -22,31 +22,31 @@ export class HomePageComponent implements OnInit {
   totalPages: number = 1;
   totalItems: number = 0;
 
-
   filter: CarFilter = {
     pageIndex: 1,
     pageSize: 12,
   };
 
-
   cities: string[] = [];
-
 
   years: number[] = [];
   currentYear = new Date().getFullYear();
 
-
   capacities: number[] = [2, 4, 5, 6, 7, 8];
 
-
   filtersApplied = false;
+
+  popularityOptions = [
+    { value: PopularityFilter.MOST_RENTED, label: 'ყველაზე ხშირად გაქირავებული' },
+    { value: PopularityFilter.MOST_VIEWED, label: 'ყველაზე ნახვადი' },
+    { value: PopularityFilter.BEST_RATED, label: 'საუკეთესო შეფასებით' }
+  ];
 
   constructor(
     private carService: CarService,
     private router: Router,
     private route: ActivatedRoute
   ) {
-
     this.years = Array.from(
       { length: this.currentYear - 1989 },
       (_, i) => 1990 + i
@@ -54,9 +54,7 @@ export class HomePageComponent implements OnInit {
   }
 
   ngOnInit(): void {
- 
     this.loadCities();
-
 
     this.route.queryParams.subscribe((params) => {
       this.filter.pageIndex = params['page'] ? parseInt(params['page']) : 1;
@@ -70,10 +68,10 @@ export class HomePageComponent implements OnInit {
         ? parseInt(params['endYear'])
         : undefined;
       this.filter.city = params['city'] || undefined;
+      this.filter.popularity = params['popularity'];
 
       this.currentPage = this.filter.pageIndex;
 
-  
       if (this.hasActiveFilters()) {
         this.filtersApplied = true;
         this.filterCars();
@@ -98,7 +96,6 @@ export class HomePageComponent implements OnInit {
     this.filter.pageIndex = page;
     this.currentPage = page;
 
- 
     if (this.filtersApplied) {
       this.filterCars();
       return;
@@ -169,7 +166,8 @@ export class HomePageComponent implements OnInit {
       this.filter.capacity ||
       this.filter.startYear ||
       this.filter.endYear ||
-      this.filter.city
+      this.filter.city ||
+      this.filter.popularity
     );
   }
 
@@ -182,18 +180,17 @@ export class HomePageComponent implements OnInit {
   }
 
   updateUrlWithFilters(): void {
-  
     const queryParams: any = { page: this.filter.pageIndex };
-
     if (this.filter.capacity) queryParams.capacity = this.filter.capacity;
     if (this.filter.startYear) queryParams.startYear = this.filter.startYear;
     if (this.filter.endYear) queryParams.endYear = this.filter.endYear;
     if (this.filter.city) queryParams.city = this.filter.city;
+    if (this.filter.popularity) queryParams.popularity = this.filter.popularity;
 
     this.router.navigate([], {
       relativeTo: this.route,
       queryParams,
-      queryParamsHandling: '', 
+      queryParamsHandling: '',
     });
   }
 
@@ -219,11 +216,9 @@ export class HomePageComponent implements OnInit {
     console.log('ძებნის ტერმინი:', this.searchTerm);
 
     if (!this.searchTerm?.trim()) {
-   
       this.clearFilters();
       return;
     }
-
 
     const term = this.searchTerm.trim().toLowerCase();
     this.filteredCars = this.allCars.filter((car) => {
@@ -236,7 +231,6 @@ export class HomePageComponent implements OnInit {
   }
 
   calculateCarPrice(car: Car): number {
-
     const price =
       typeof car.price === 'number'
         ? car.price
@@ -245,7 +239,6 @@ export class HomePageComponent implements OnInit {
       typeof car.multiplier === 'number'
         ? car.multiplier
         : parseFloat(car.multiplier as any) || 1;
-
 
     const finalMultiplier =
       isNaN(multiplier) || multiplier <= 0 ? 1 : multiplier;

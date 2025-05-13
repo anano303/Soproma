@@ -57,6 +57,18 @@
       </select>
     </div>
 
+    <div class="filter-section">
+      <div class="filter-title">პოპულარობა</div>
+      <div class="filter-options">
+        <button *ngFor="let option of popularityOptions"
+                [class.active]="filter.popularity === option.value"
+                (click)="filter.popularity = option.value; applyFilters()"
+                class="filter-button">
+          {{option.label}}
+        </button>
+      </div>
+    </div>
+
     <div class="filter-buttons">
       <button class="apply-filter-btn" (click)="applyFilters()">
         გამოყენება
