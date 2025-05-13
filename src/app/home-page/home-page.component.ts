@@ -25,7 +25,7 @@ export class HomePageComponent implements OnInit {
 
   filter: CarFilter = {
     pageIndex: 1,
-    pageSize: 10,
+    pageSize: 12,
   };
 
 
