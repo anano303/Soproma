@@ -11,7 +11,7 @@ import { CarService } from '../car.service';
   standalone: true,
   imports: [CommonModule, DatePipe, RouterModule],
   templateUrl: './profile.component.html',
-  styleUrl: './profile.component.css'
+  styleUrl: './profile.component.css',
 })
 export class ProfileComponent implements OnInit {
   userName: string = 'მომხმარებელი';
@@ -27,6 +27,14 @@ export class ProfileComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.user = this.userService.currentUserValue;
+
+    this.fetchUserFromApi();
+
+    if (!this.user?.firstName || !this.user?.lastName) {
+      this.refreshUserData();
+    }
+
     this.userService.currentUser.subscribe((user) => {
       this.user = user;
       if (user && user.firstName && user.lastName) {
@@ -40,12 +48,43 @@ export class ProfileComponent implements OnInit {
       }
     });
 
-    this.rentalService.getRentals().subscribe(rentals => {
+    this.rentalService.getRentals().subscribe((rentals) => {
       this.rentals = rentals;
     });
 
     this.loadFavorites();
     this.loadUploadedCars();
+  }
+
+  private fetchUserFromApi(): void {
+    if (this.userService.isLoggedIn()) {
+      this.userService.getUserDetails().subscribe({
+        next: (userData) => {
+          console.log('Fetched user data:', userData);
+          this.user = userData;
+        },
+        error: (err) => {
+          console.error('Failed to fetch user details:', err);
+        },
+      });
+    }
+  }
+
+  private refreshUserData(): void {
+    const token = localStorage.getItem('token');
+    const userId = this.user?.id || localStorage.getItem('userId');
+
+    if (token) {
+      this.userService.getUserDetails().subscribe({
+        next: (userData) => {
+          this.user = userData;
+          localStorage.setItem('currentUser', JSON.stringify(userData));
+        },
+        error: (err) => {
+          console.error('Error fetching user data:', err);
+        },
+      });
+    }
   }
 
   getUserName(): string {
@@ -55,11 +94,11 @@ export class ProfileComponent implements OnInit {
   deleteRental(id: string): void {
     this.rentalService.deleteRental(id).subscribe({
       next: () => {
-        this.rentals = this.rentals.filter(rental => rental.id !== id);
+        this.rentals = this.rentals.filter((rental) => rental.id !== id);
       },
       error: (error) => {
         console.error('Error deleting rental:', error);
-      }
+      },
     });
   }
 
@@ -69,7 +108,7 @@ export class ProfileComponent implements OnInit {
   }
 
   removeFavorite(car: Car) {
-    this.favorites = this.favorites.filter(f => f.id !== car.id);
+    this.favorites = this.favorites.filter((f) => f.id !== car.id);
     localStorage.setItem('favorites', JSON.stringify(this.favorites));
   }
 
@@ -83,7 +122,7 @@ export class ProfileComponent implements OnInit {
         error: (err: Error) => {
           console.error('Error loading uploaded cars:', err);
           this.uploadedCars = [];
-        }
+        },
       });
     }
   }
@@ -92,11 +131,13 @@ export class ProfileComponent implements OnInit {
     if (confirm('ნამდვილად გსურთ მანქანის წაშლა?')) {
       this.carService.deleteCar(carId).subscribe({
         next: () => {
-          this.uploadedCars = this.uploadedCars.filter(car => car.id !== carId);
+          this.uploadedCars = this.uploadedCars.filter(
+            (car) => car.id !== carId
+          );
         },
         error: (err: Error) => {
           console.error('Error deleting car:', err);
-        }
+        },
       });
     }
   }
