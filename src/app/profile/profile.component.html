@@ -67,9 +67,9 @@
               {{ rental.endDate | date : "medium" }}
             </small>
           </div>
-          <button class="delete-btn" (click)="deleteRental(rental.id)">
+          <!-- <button class="delete-btn" (click)="deleteRental(rental.id)">
             <i class="icon">🗑️</i> წაშლა
-          </button>
+          </button> -->
           <div class="rental-actions">
             <a
               [routerLink]="rental.car.id ? ['/car', rental.car.id] : []"
